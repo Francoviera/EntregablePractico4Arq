@@ -17,4 +17,12 @@ public class ClienteService {
 	public List<Cliente> getAll() {
 		return this.clientes.findAll(); // pasar a paginado
 	}
+	
+	public Boolean addCliente(Cliente c) {
+		return this.clientes.save(c) != null; 
+	}
+	
+	public void deleteCliente(Cliente c) {
+		this.clientes.delete(c); 
+	}
 }
