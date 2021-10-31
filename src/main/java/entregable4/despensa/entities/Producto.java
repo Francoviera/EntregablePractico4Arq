@@ -1,42 +1,38 @@
 package entregable4.despensa.entities;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 public class Producto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private int idProducto;
 	@Column
 	private String nombreProducto;
 	@Column
-	private String descripcion;
-	@Column
 	private String marca;
 	@Column
-	private int precioCompra;
-	@Column
-	private int precioVenta;
-	@Column
-	private int stock;
+	private int precio;
+	
+	@OneToMany(mappedBy = "producto")
+	private List<ItemPedido> itemspedidos; // pedidos que lo incluyen
 
 	public Producto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Producto(String nombreProducto, String descripcion, String marca, int precioCompra, int precioVenta,
-			int stock) {
+	public Producto(String nombreProducto, String marca, int precio) {
 		super();
 		this.nombreProducto = nombreProducto;
-		this.descripcion = descripcion;
 		this.marca = marca;
-		this.precioCompra = precioCompra;
-		this.precioVenta = precioVenta;
-		this.stock = stock;
+		this.precio = precio;
 	}
 
 	public String getNombreProducto() {
@@ -47,14 +43,6 @@ public class Producto {
 		this.nombreProducto = nombreProducto;
 	}
 
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-
 	public String getMarca() {
 		return marca;
 	}
@@ -63,32 +51,26 @@ public class Producto {
 		this.marca = marca;
 	}
 
-	public int getPrecioCompra() {
-		return precioCompra;
-	}
-
-	public void setPrecioCompra(int precioCompra) {
-		this.precioCompra = precioCompra;
-	}
-
 	public int getPrecioVenta() {
-		return precioVenta;
+		return precio;
 	}
 
 	public void setPrecioVenta(int precioVenta) {
-		this.precioVenta = precioVenta;
-	}
-
-	public int getStock() {
-		return stock;
-	}
-
-	public void setStock(int stock) {
-		this.stock = stock;
+		this.precio = precioVenta;
 	}
 
 	public int getId() {
-		return id;
+		return idProducto;
 	}
 
+	@Override
+	public String toString() {
+		return "Producto [nombreProducto=" + nombreProducto + ", marca=" + marca + "]";
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		Producto p = (Producto) obj;
+		return p.getNombreProducto().equals(this.getNombreProducto()) && p.getMarca().equals(this.getMarca());
+	}
 }

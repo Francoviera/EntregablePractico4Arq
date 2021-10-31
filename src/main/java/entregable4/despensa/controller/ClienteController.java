@@ -14,10 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.isistan.bookstore.entities.Libro;
 import entregable4.despensa.entities.Cliente;
 import entregable4.despensa.services.ClienteService;
-import net.bytebuddy.asm.Advice.Return;
 
 @RestController
 @RequestMapping("/cliente")
