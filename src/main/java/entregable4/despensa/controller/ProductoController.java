@@ -31,11 +31,11 @@ public class ProductoController {
 	}
 	@GetMapping("/{id}")
 	public ResponseEntity<Producto> getProducto(@PathVariable("id")int id){
-		Optional<Producto> Producto =productoService.getProducto(id);
-		if(Producto.isEmpty()) {
+		Optional<Producto> producto =productoService.getProducto(id);
+		if(producto.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}else {
-			return new ResponseEntity<>(Producto.get(),HttpStatus.OK);
+			return new ResponseEntity<>(producto.get(),HttpStatus.OK);
 		}
 	}
 	
@@ -51,11 +51,11 @@ public class ProductoController {
 	}
 	
 	@DeleteMapping("")
-	public ResponseEntity<Producto> deleteCliente(@RequestBody int id){
-		Optional<Producto> Producto=  productoService.getProducto(id);
-		if(Producto.isEmpty()) {
-			productoService.deleteProducto(Producto.get());
-			return new ResponseEntity<>(Producto.get(), HttpStatus.OK);
+	public ResponseEntity<Producto> deleteProducto(@RequestBody int id){
+		Optional<Producto> producto=  productoService.getProducto(id);
+		if(producto.isEmpty()) {
+			productoService.deleteProducto(producto.get());
+			return new ResponseEntity<>(producto.get(), HttpStatus.OK);
 		}else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}

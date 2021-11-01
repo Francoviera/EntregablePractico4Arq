@@ -20,7 +20,7 @@ public class ProductoStock {
 	@Column
 	private int stock;
 	@Column
-	private int precio;
+	private double precio;
 
 
 	public ProductoStock() {
@@ -28,7 +28,7 @@ public class ProductoStock {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ProductoStock(Producto producto, int stock, int precio) {
+	public ProductoStock(Producto producto, int stock, double precio) {
 		super();
 		this.producto = producto;
 		this.stock = stock;
@@ -55,11 +55,11 @@ public class ProductoStock {
 		return idProductoStock;
 	}
 
-	public int getPrecio() {
+	public double getPrecio() {
 		return precio;
 	}
 
-	public void setPrecio(int precio) {
+	public void setPrecio(double precio) {
 		this.precio = precio;
 	}
 

@@ -1,5 +1,6 @@
 package entregable4.despensa.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,6 +21,8 @@ public class ItemPedido {
 	@ManyToMany
 	@JoinColumn(name = "idPedido")
 	private Pedido pedido;
+	@Column(nullable = true)
+	private int precioTotalItem;
 
 	public ItemPedido() {
 		super();
@@ -30,7 +33,7 @@ public class ItemPedido {
 		super();
 		this.producto = producto;
 		this.cantidad = cantidad;
-		this.pedido=pedido;
+		this.pedido = pedido;
 	}
 
 	public Producto getProducto() {
@@ -56,7 +59,13 @@ public class ItemPedido {
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
 	}
-	
-	
+
+	public int getPrecioTotalItem() {
+		return precioTotalItem;
+	}
+
+	public void setPrecioTotalItem(int precioTotalItem) {
+		this.precioTotalItem = precioTotalItem;
+	}
 
 }

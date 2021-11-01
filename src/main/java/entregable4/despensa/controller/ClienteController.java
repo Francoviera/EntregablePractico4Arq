@@ -32,11 +32,11 @@ public class ClienteController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Cliente> getCliente(@PathVariable("id")int id){
-		Optional<Cliente> Cliente =clienteService.getCliente(id);
-		if(Cliente.isEmpty()) {
+		Optional<Cliente> cliente =clienteService.getCliente(id);
+		if(cliente.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}else {
-			return new ResponseEntity<>(Cliente.get(),HttpStatus.OK);
+			return new ResponseEntity<>(cliente.get(),HttpStatus.OK);
 		}
 	}
 	
@@ -53,12 +53,15 @@ public class ClienteController {
 	
 	@DeleteMapping("")
 	public ResponseEntity<Cliente> deleteCliente(@RequestBody int id){
-		Optional<Cliente> Cliente=  clienteService.getCliente(id);
-		if(Cliente.isEmpty()) {
-			clienteService.deleteCliente(Cliente.get());
-			return new ResponseEntity<>(Cliente.get(), HttpStatus.OK);
+		Optional<Cliente> cliente=  clienteService.getCliente(id);
+		if(cliente.isEmpty()) {
+			clienteService.deleteCliente(cliente.get());
+			return new ResponseEntity<>(cliente.get(), HttpStatus.OK);
 		}else {
-			return new ResponseEntity<>(Cliente.get(),HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(cliente.get(),HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	//@PostMapping("/buyProduct")
+
 }

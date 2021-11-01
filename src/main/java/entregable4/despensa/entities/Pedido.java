@@ -30,6 +30,9 @@ public class Pedido {
 	@JoinColumn(name = "idItem")
 	private List<ItemPedido> pedidos;
 
+	@Column(nullable = true)
+	private int precioTotal;
+
 	public Pedido(Cliente cliente) {
 		super();
 		this.cliente = cliente;
@@ -58,6 +61,14 @@ public class Pedido {
 
 	public void setMomentoCompra(Timestamp momentoCompra) {
 		this.momentoCompra = momentoCompra;
+	}
+
+	public int getPrecioTotal() {
+		return precioTotal;
+	}
+
+	public void setPrecioTotal(int precioTotal) {
+		this.precioTotal = precioTotal;
 	}
 
 }
