@@ -26,26 +26,21 @@ public class Cliente {
 
 	@Column
 	private int dni; // dni (equals)
-	
+
 	@ManyToMany
 	@JoinColumn(name = "idPedido")
 	List<Pedido> pedidos;
-	
-	@ManyToOne
-	@JoinColumn(name = "idDespensa")
-	private Despensa negocio;
 
 	public Cliente() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Cliente(String nombre, String apellido, int dni, Despensa despensa) {
+	public Cliente(String nombre, String apellido, int dni) {
 		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.dni = dni;
-		this.negocio=despensa;
 	}
 
 	public String getNombre() {
@@ -74,14 +69,6 @@ public class Cliente {
 
 	public int getId() {
 		return idCliente;
-	}
-
-	public Despensa getNegocio() {
-		return negocio;
-	}
-
-	public void setNegocio(Despensa negocio) {
-		this.negocio = negocio;
 	}
 
 	@Override

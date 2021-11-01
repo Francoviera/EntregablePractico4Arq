@@ -18,17 +18,17 @@ public class Pedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int idPedido;
-	
+
 	@ManyToMany
 	@JoinColumn(name = "idCliente")
 	private Cliente cliente;
-	
+
 	@Column(nullable = true)
 	private Timestamp momentoCompra;
-	
+
 	@ManyToMany
 	@JoinColumn(name = "idItem")
-	private List<ItemPedido> encargues;
+	private List<ItemPedido> pedidos;
 
 	public Pedido(Cliente cliente) {
 		super();

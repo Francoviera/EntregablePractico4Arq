@@ -19,20 +19,20 @@ public class ProductoStock {
 	private Producto producto; // RELACION 1:1
 	@Column
 	private int stock;
-	@ManyToOne
-	@JoinColumn(name = "idDespensa")
-	private Despensa despensa;
+	@Column
+	private int precio;
+
 
 	public ProductoStock() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public ProductoStock(Producto producto, int stock, Despensa despensa) {
+	public ProductoStock(Producto producto, int stock, int precio) {
 		super();
 		this.producto = producto;
 		this.stock = stock;
-		this.despensa=despensa;
+		this.precio=precio;
 	}
 
 	public Producto getProducto() {
@@ -55,4 +55,13 @@ public class ProductoStock {
 		return idProductoStock;
 	}
 
+	public int getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(int precio) {
+		this.precio = precio;
+	}
+
+	
 }

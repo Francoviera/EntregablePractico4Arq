@@ -17,22 +17,19 @@ public class Producto {
 	private String nombreProducto;
 	@Column
 	private String marca;
-	@Column
-	private int precio;
-	
+
 	@OneToMany(mappedBy = "producto")
-	private List<ItemPedido> itemspedidos; // pedidos que lo incluyen
+	private List<ItemPedido> itemspedidos;
 
 	public Producto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Producto(String nombreProducto, String marca, int precio) {
+	public Producto(String nombreProducto, String marca) {
 		super();
 		this.nombreProducto = nombreProducto;
 		this.marca = marca;
-		this.precio = precio;
 	}
 
 	public String getNombreProducto() {
@@ -49,14 +46,6 @@ public class Producto {
 
 	public void setMarca(String marca) {
 		this.marca = marca;
-	}
-
-	public int getPrecioVenta() {
-		return precio;
-	}
-
-	public void setPrecioVenta(int precioVenta) {
-		this.precio = precioVenta;
 	}
 
 	public int getId() {
