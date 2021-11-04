@@ -1,5 +1,7 @@
 package entregable4.despensa.controller;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,6 +63,8 @@ public class PedidoController {
 	
 	@GetMapping("cliente/{id}")
 	public List<Pedido> pedidosByCliente(@PathVariable("id") int id){
-		return pedidoService.getPedidosByCliente(id);
+		Timestamp ts = new Timestamp(System.currentTimeMillis());
+		Date date=new Date(ts.getTime());
+		return pedidoService.getPedidosByCliente(id, date);
 	}
 }

@@ -24,7 +24,7 @@ public class DbFiller {
 
 	private static ArrayList<Cliente> clientesLista = new ArrayList<Cliente>();
 	private static ArrayList<Producto> productosLista = new ArrayList<Producto>();
-	private static ArrayList<Pedido> pedidosLista = new ArrayList<Pedido>();
+	private static ArrayList<ItemPedido> itemPedidosLista = new ArrayList<ItemPedido>();
 
 	@Bean
 	public CommandLineRunner initDb(ProductoService productos, ClienteService clientes, PedidoService pedidos,
@@ -45,15 +45,23 @@ public class DbFiller {
 
 				clientesLista.add(c);
 
-				Pedido pedido = new Pedido(clientesLista.get((int) (Math.random() * clientesLista.size())));
+				
+				
+				
 
-				pedidos.addPedido(pedido);
-				pedidosLista.add(pedido);
+				ItemPedido item = new ItemPedido(productosLista.get((int) (Math.random() * productosLista.size()-1)),
+						(int) (Math.random() * 3));
 
-				ItemPedido item = new ItemPedido(productosLista.get((int) (Math.random() * productosLista.size())),
-						(int) (Math.random() * 3), pedidosLista.get((int) (Math.random() * pedidosLista.size())));
-
+				itemPedidosLista.add(item);
 				itempedidos.addItemPedido(item);
+				
+				int ini=(int) Math.random()*itemPedidosLista.size();
+				int max= (int) Math.random() * (itemPedidosLista.size()-1 - ini) +ini;
+				List<ItemPedido>sub=itemPedidosLista.subList(ini, max);
+				Pedido pedido = new Pedido(clientesLista.get(i), sub);
+				pedidos.addPedido(pedido);
+				
+				
 
 			});
 		};

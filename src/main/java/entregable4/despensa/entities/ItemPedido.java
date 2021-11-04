@@ -17,9 +17,6 @@ public class ItemPedido {
 	@JoinColumn(name = "idProducto")
 	private Producto producto; // LO QUE QUIERE COMPRAR
 	private int cantidad; // LA CANTIDAD QUE QUIERE COMPRAR
-	@ManyToOne
-	@JoinColumn(name = "idPedido")
-	private Pedido pedido;
 	@Column(nullable = true)
 	private int precioTotalItem;
 
@@ -28,11 +25,10 @@ public class ItemPedido {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ItemPedido(Producto producto, int cantidad, Pedido pedido) {
+	public ItemPedido(Producto producto, int cantidad) {
 		super();
 		this.producto = producto;
 		this.cantidad = cantidad;
-		this.pedido = pedido;
 	}
 
 	public Producto getProducto() {
@@ -51,20 +47,18 @@ public class ItemPedido {
 		return idItem;
 	}
 
-	public Pedido getPedido() {
-		return pedido;
-	}
-
-	public void setPedido(Pedido pedido) {
-		this.pedido = pedido;
-	}
-
 	public int getPrecioTotalItem() {
 		return precioTotalItem;
 	}
 
 	public void setPrecioTotalItem(int precioTotalItem) {
 		this.precioTotalItem = precioTotalItem;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		ItemPedido item = (ItemPedido) obj;
+		return item.getProducto().equals(this.getProducto());
 	}
 
 }

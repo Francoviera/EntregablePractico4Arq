@@ -1,5 +1,6 @@
 package entregable4.despensa.entities;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 @Entity
 public class Pedido {
 	@Id
@@ -25,18 +29,19 @@ public class Pedido {
 	private Cliente cliente;
 
 	@Column(nullable = true)
-	private Timestamp momentoCompra;
+	private Date momentoCompra;
 
 	@ManyToMany
 	@JoinColumn(name = "idItem")
 	private List<ItemPedido> pedidos;
 
 	@Column(nullable = true)
-	private int precioTotal;
+	private double precioTotal;
 
-	public Pedido(Cliente cliente) {
+	public Pedido(Cliente cliente, List<ItemPedido> itemspedidos) {
 		super();
 		this.cliente = cliente;
+		this.pedidos= new ArrayList<ItemPedido>(itemspedidos);
 	}
 
 	public Pedido() {
@@ -56,20 +61,24 @@ public class Pedido {
 		return idPedido;
 	}
 
-	public Timestamp getMomentoCompra() {
+	public Date getMomentoCompra() {
 		return momentoCompra;
 	}
 
-	public void setMomentoCompra(Timestamp momentoCompra) {
+	public void setMomentoCompra(Date momentoCompra) {
 		this.momentoCompra = momentoCompra;
 	}
 
-	public int getPrecioTotal() {
+	public double getPrecioTotal() {
 		return precioTotal;
 	}
 
-	public void setPrecioTotal(int precioTotal) {
+	public void setPrecioTotal(double precioTotal) {
 		this.precioTotal = precioTotal;
+	}
+
+	public List<ItemPedido> getPedidos() {
+		return pedidos;
 	}
 
 	@Override

@@ -35,31 +35,31 @@ public class ClienteService {
 		return this.clientes.findAll(); // pasar a paginado
 	}
 	
-	public ArrayList<String> getTotalOfPedidosByCliente() {
-		ArrayList<String> reporte= new ArrayList<String>();
-		List<ItemPedido> itemPedidos= this.itemPedidos.findAll();
-		Collections.sort(itemPedidos, new SortByDate());
-		for (ItemPedido itemPedido : itemPedidos) {
-			reporte.add("Cliente: "+ itemPedido.getPedido().getCliente().getNombre() +" "+ itemPedido.getPedido().getCliente().getNombre()+
-					"Total: "+ itemPedido.getPedido().getPrecioTotal());	
-		}
-		
-		return reporte;
-		
-	}
-	
-	public ArrayList<String> getSalesByDay() {
-		ArrayList<String> reporte= new ArrayList<String>();
-		List<ItemPedido> itemPedidos= this.itemPedidos.findAll();
-		Collections.sort(itemPedidos, new SortByDate());
-		for (ItemPedido itemPedido : itemPedidos) {
-			reporte.add("Cliente: "+ itemPedido.getPedido().getCliente().getNombre() +" "+ itemPedido.getPedido().getCliente().getNombre()+
-					"Total: "+ itemPedido.getPedido().getPrecioTotal());	
-		}
-		
-		return reporte;
-		
-	}
+//	public ArrayList<String> getTotalOfPedidosByCliente() {
+//		ArrayList<String> reporte= new ArrayList<String>();
+//		List<ItemPedido> itemPedidos= this.itemPedidos.findAll();
+//		Collections.sort(itemPedidos, new SortByDate());
+//		for (ItemPedido itemPedido : itemPedidos) {
+//			reporte.add("Cliente: "+ itemPedido.getPedido().getCliente().getNombre() +" "+ itemPedido.getPedido().getCliente().getNombre()+
+//					"Total: "+ itemPedido.getPedido().getPrecioTotal());	
+//		}
+//		
+//		return reporte;
+//		
+//	}
+//	
+//	public ArrayList<String> getSalesByDay() {
+//		ArrayList<String> reporte= new ArrayList<String>();
+//		List<ItemPedido> itemPedidos= this.itemPedidos.findAll();
+//		Collections.sort(itemPedidos, new SortByDate());
+//		for (ItemPedido itemPedido : itemPedidos) {
+//			reporte.add("Cliente: "+ itemPedido.getPedido().getCliente().getNombre() +" "+ itemPedido.getPedido().getCliente().getNombre()+
+//					"Total: "+ itemPedido.getPedido().getPrecioTotal());	
+//		}
+//		
+//		return reporte;
+//		
+//	}
 
 	public Boolean addCliente(Cliente c) {
 		return this.clientes.save(c) != null;
