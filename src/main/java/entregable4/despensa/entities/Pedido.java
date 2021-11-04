@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -19,7 +20,7 @@ public class Pedido {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int idPedido;
 
-	@ManyToMany
+	@ManyToOne
 	@JoinColumn(name = "idCliente")
 	private Cliente cliente;
 
@@ -69,6 +70,11 @@ public class Pedido {
 
 	public void setPrecioTotal(int precioTotal) {
 		this.precioTotal = precioTotal;
+	}
+
+	@Override
+	public String toString() {
+		return "Pedido [cliente=" + cliente + ", momentoCompra=" + momentoCompra + "]";
 	}
 
 }

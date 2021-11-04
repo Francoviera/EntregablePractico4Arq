@@ -15,7 +15,7 @@ import entregable4.despensa.entities.Pedido;
 import entregable4.despensa.repository.ClienteRepository;
 import entregable4.despensa.repository.ItemPedidoRepository;
 import entregable4.despensa.repository.PedidoRepository;
-import entreglable4.despensa.order.SortByDate;
+import entregable4.despensa.order.SortByDate;
 
 @Service
 public class ClienteService {

@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -18,7 +17,7 @@ public class ItemPedido {
 	@JoinColumn(name = "idProducto")
 	private Producto producto; // LO QUE QUIERE COMPRAR
 	private int cantidad; // LA CANTIDAD QUE QUIERE COMPRAR
-	@ManyToMany
+	@ManyToOne
 	@JoinColumn(name = "idPedido")
 	private Pedido pedido;
 	@Column(nullable = true)

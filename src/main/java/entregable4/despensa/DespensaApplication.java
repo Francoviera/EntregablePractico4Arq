@@ -1,5 +1,6 @@
 package entregable4.despensa;
 
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -8,6 +9,7 @@ public class DespensaApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(DespensaApplication.class, args);
+		
 	}
 
 }

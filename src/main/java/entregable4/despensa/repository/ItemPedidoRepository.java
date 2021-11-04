@@ -11,13 +11,13 @@ import entregable4.despensa.entities.Pedido;
 
 public interface ItemPedidoRepository extends JpaRepository<ItemPedido, Integer> {
 	
-	List<ItemPedido> findByCliente(Cliente cliente);
+//	List<ItemPedido> findByCliente(Cliente cliente);
 	
 //	@Query(name = "select p, COUNT(*) from ItemPedido p where p.professional = ?1 group by p.producto.id order by DESC ")
 //	Pedido getMostProductSale();
 	
 	
 	//CREO QUE ESTO ANDA 
-	List<ItemPedido> findOrderByPedidoByCount();
+//	List<ItemPedido> findOrderByPedidoByCount();
 
 }

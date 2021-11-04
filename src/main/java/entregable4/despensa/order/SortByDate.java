@@ -1,4 +1,4 @@
-package entreglable4.despensa.order;
+package entregable4.despensa.order;
 
 import java.util.Comparator;
 
