@@ -1,6 +1,6 @@
 package entregable4.despensa.repository;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,5 +14,11 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
 			+ " AND YEAR(:date)= YEAR(p.momentoCompra) AND MONTH(:date)= MONTH(p.momentoCompra) "
 			+ "AND DAY(:date)= DAY(p.momentoCompra)")
 	List<Pedido> findPedidoOfCliente(int id, Date date);
-
+	
+	@Query("SELECT p FROM Pedido p WHERE YEAR(:date)= YEAR(p.momentoCompra)"
+			+ " AND MONTH(:date)= MONTH(p.momentoCompra) "
+			+ "AND DAY(:date)= DAY(p.momentoCompra)")
+	List<Pedido> findPedidoByMomentoDeCompra(Date date);
+	
+	
 }

@@ -1,5 +1,9 @@
 package entregable4.despensa.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import entregable4.despensa.DTO.ReporteCompras;
 import entregable4.despensa.entities.Cliente;
+import entregable4.despensa.responses.responseDate;
 import entregable4.despensa.services.ClienteService;
 
 @RestController
@@ -39,6 +45,44 @@ public class ClienteController {
 			return new ResponseEntity<>(cliente.get(),HttpStatus.OK);
 		}
 	}
+	
+//	@PostMapping("/ventasPorDia")
+//	public ResponseEntity<ArrayList<ReporteCompras>> getSalesByDay(@RequestBody responseDate dateString) throws ParseException{
+//		SimpleDateFormat formato = new SimpleDateFormat("yyyy/mm/dd"); 
+//		Date date = formato.parse(dateString.getDate());
+//		ArrayList<ReporteCompras> reportes =clienteService.getSalesByDay(date);
+//		if(reportes.isEmpty()) {
+//			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//		}else {
+//			return new ResponseEntity<>(reportes,HttpStatus.OK);
+//		}
+//	}
+	
+	@GetMapping("/ventasPorDia/{date}")
+	public ResponseEntity<ArrayList<ReporteCompras>> getSalesByDay(@PathVariable("date")String date) throws ParseException{
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd"); 
+//        Date date = format.parse("20-08-1981"); 
+		System.out.println(format.parse("2021-11-04"));
+        Date finalDate = format.parse("2021-11-04"); 
+        
+		ArrayList<ReporteCompras> reportes =clienteService.getSalesByDay(finalDate);
+		if(reportes.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}else {
+			return new ResponseEntity<>(reportes,HttpStatus.OK);
+		}
+	}
+	
+	@GetMapping("/reporteDeVentas")
+	public ResponseEntity<ArrayList<ReporteCompras>> getSalesByClient(){
+		ArrayList<ReporteCompras> reportes =clienteService.getTotalOfPedidosByCliente();
+		if(reportes.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}else {
+			return new ResponseEntity<>(reportes,HttpStatus.OK);
+		}
+	}
+	
 	
 	@PostMapping("")
 	public ResponseEntity<Cliente> addCliente(@RequestBody Cliente c){
