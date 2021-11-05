@@ -35,56 +35,77 @@ public class PedidoService {
 	public List<Pedido> getPedidos() {
 		return this.pedidos.findAll();
 	}
+	
+	public void deletePedido(Pedido p) {
+		this.pedidos.delete(p);
+	}
 
 	public boolean addPedido(Pedido p) {
 
 		// ACA LE DEFINIMOS LA FECHA
-		Timestamp ts = new Timestamp(System.currentTimeMillis());
-		Date date = new Date(ts.getTime());
+		Date date = this.definirHora();
+
 		p.setMomentoCompra(date);
 
 		// ACA APLICO LA SECRETARIA DE COMERCIO
 		List<ItemPedido> listaNueva = p.getPedidos();
 		if (listaNueva != null) {
 			// traer los pedidos del cliente
-			List<Pedido> lista = this.getPedidosByCliente(p.getCliente().getId(), date);
-			for (Pedido pedido : lista) {
-				List<ItemPedido> listaAux = pedido.getPedidos();
-				for (ItemPedido item : listaAux) {
-					if (listaNueva.contains(item)) {
-						int contador = item.getCantidad() + listaNueva.get(listaNueva.indexOf(item)).getCantidad();
-						if (contador > 3) {
-//							rechazar pedido;
-							return false;
-						}
-					}
-				}
+			if (chequearCantidad(p, date, listaNueva)) {
+				return false;
 			}
-
-			double precioTotal = 0;
-			for (ItemPedido item : listaNueva) {
-				int cantidadPedir = item.getCantidad();
-
-				int id = item.getProducto().getId();
-				ProductoStock productoStock = stock.findStockByIdProducto(id);
-				
-				double precio = productoStock.getPrecio();
-				int stockDisponible = productoStock.getStock();
-				if (stockDisponible < cantidadPedir) {
-					return false;
-				} else {
-					productoStock.setStock(stockDisponible - cantidadPedir);
-					precioTotal += cantidadPedir * precio;
-				}
+			if (venderPedido(p, listaNueva)) {
+				return false;
 			}
-
-			p.setPrecioTotal(precioTotal);
 		}
 
 		return this.pedidos.save(p) != null;
 	}
 
-	public void deletePedido(Pedido p) {
-		this.pedidos.delete(p);
+	private Date definirHora() {
+		Timestamp ts = new Timestamp(System.currentTimeMillis());
+		Date date = new Date(ts.getTime());
+		return date;
 	}
+
+	private boolean venderPedido(Pedido p, List<ItemPedido> listaNueva) {
+		double precioTotal = 0;
+		for (ItemPedido item : listaNueva) {
+			int cantidadPedir = item.getCantidad();
+
+			int id = item.getProducto().getId();
+			ProductoStock productoStock = stock.findStockByIdProducto(id);
+
+			double precio = productoStock.getPrecio();
+			int stockDisponible = productoStock.getStock();
+			if (stockDisponible < cantidadPedir) {
+				return false;
+			} else {
+				productoStock.setStock(stockDisponible - cantidadPedir);
+				precioTotal += cantidadPedir * precio;
+			}
+		}
+
+		p.setPrecioTotal(precioTotal);
+		return true;
+	}
+
+	private boolean chequearCantidad(Pedido p, Date date, List<ItemPedido> listaNueva) {
+		List<Pedido> lista = this.getPedidosByCliente(p.getCliente().getId(), date);
+		for (Pedido pedido : lista) {
+			List<ItemPedido> listaAux = pedido.getPedidos();
+			for (ItemPedido item : listaAux) {
+				if (listaNueva.contains(item)) {
+					int contador = item.getCantidad() + listaNueva.get(listaNueva.indexOf(item)).getCantidad();
+					if (contador > 3) {
+//						rechazar pedido;
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+
 }
