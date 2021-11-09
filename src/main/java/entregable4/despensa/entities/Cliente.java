@@ -27,9 +27,7 @@ public class Cliente {
 	@Column
 	private int dni; // dni (equals)
 
-	@ManyToMany
-	@JoinColumn(name = "idPedido")
-	List<Pedido> pedidos;
+	
 
 	public Cliente() {
 		super();

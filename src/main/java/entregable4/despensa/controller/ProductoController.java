@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import entregable4.despensa.DTO.MasVendido;
 import entregable4.despensa.entities.Producto;
 import entregable4.despensa.services.ProductoService;
 
@@ -60,4 +61,16 @@ public class ProductoController {
 			return new ResponseEntity<Producto>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	@GetMapping("/masvendido")
+	public ResponseEntity<MasVendido> getMasVendido(){
+		Optional<MasVendido> masvendido= productoService.getProductoMasVendido();
+		if(!masvendido.isEmpty()) {
+			return new ResponseEntity<MasVendido>(masvendido.get(), HttpStatus.OK);
+		}else {
+			return new ResponseEntity<MasVendido>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+
 }
