@@ -50,10 +50,10 @@ public class ItemPedidoController {
 		}
 	}
 
-	@DeleteMapping("")
-	public ResponseEntity<ItemPedido> deleteItemPedido(@RequestBody int id) {
+	@DeleteMapping("/{id}")
+	public ResponseEntity<ItemPedido> deleteItemPedido(@PathVariable("id") int id) {
 		Optional<ItemPedido> itemPedido = itemPedidoService.getItemPedido(id);
-		if (itemPedido.isEmpty()) {
+		if (!itemPedido.isEmpty()) {
 			itemPedidoService.deleteItemPedido(itemPedido.get());
 			return new ResponseEntity<>(itemPedido.get(), HttpStatus.OK);
 		} else {

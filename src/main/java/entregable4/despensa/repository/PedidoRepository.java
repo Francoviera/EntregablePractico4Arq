@@ -14,11 +14,8 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
 			+ " AND YEAR(:date)= YEAR(p.momentoCompra) AND MONTH(:date)= MONTH(p.momentoCompra) "
 			+ "AND DAY(:date)= DAY(p.momentoCompra)")
 	List<Pedido> findPedidoOfCliente(int id, Date date);
-	
-	@Query("SELECT p FROM Pedido p WHERE YEAR(:date)= YEAR(p.momentoCompra)"
-			+ " AND MONTH(:date)= MONTH(p.momentoCompra) "
-			+ "AND DAY(:date)= DAY(p.momentoCompra)")
-	List<Pedido> findPedidoByMomentoDeCompra(Date date);
-	
-	
+
+	@Query("SELECT p FROM Pedido p GROUP BY(p.idPedido, YEAR(p.momentoCompra), MONTH(p.momentoCompra), DAY(p.momentoCompra)) ORDER BY p.momentoCompra")
+	List<Pedido> findPedidosByDay();
+
 }

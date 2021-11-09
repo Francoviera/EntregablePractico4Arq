@@ -20,44 +20,44 @@ import entregable4.despensa.services.ProductoService;
 @RestController
 @RequestMapping("/producto")
 public class ProductoController {
-	
+
 	@Autowired
 	private ProductoService productoService;
-	
 
 	@GetMapping("")
-	public List<Producto>getAll() {
+	public List<Producto> getAll() {
 		return this.productoService.getProductos();
 	}
+
 	@GetMapping("/{id}")
-	public ResponseEntity<Producto> getProducto(@PathVariable("id")int id){
-		Optional<Producto> producto =productoService.getProducto(id);
-		if(producto.isEmpty()) {
+	public ResponseEntity<Producto> getProducto(@PathVariable("id") int id) {
+		Optional<Producto> producto = productoService.getProducto(id);
+		if (producto.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}else {
-			return new ResponseEntity<>(producto.get(),HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(producto.get(), HttpStatus.OK);
 		}
 	}
-	
+
 	@PostMapping("")
-	public ResponseEntity<Producto> addProducto(@RequestBody Producto p){
-		boolean ok=  productoService.addProducto(p);
-		if(!ok) {
+	public ResponseEntity<Producto> addProducto(@RequestBody Producto p) {
+		boolean ok = productoService.addProducto(p);
+		if (!ok) {
 			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 
-		}else {
-			return new ResponseEntity<>(p,HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(p, HttpStatus.OK);
 		}
 	}
-	
-	@DeleteMapping("")
-	public ResponseEntity<Producto> deleteProducto(@RequestBody int id){
-		Optional<Producto> producto=  productoService.getProducto(id);
-		if(producto.isEmpty()) {
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Producto> deleteProducto(@PathVariable("id") int id) {
+		Optional<Producto> producto = productoService.getProducto(id);
+		if (!producto.isEmpty()) {
 			productoService.deleteProducto(producto.get());
-			return new ResponseEntity<>(producto.get(), HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Producto>(producto.get(), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Producto>(HttpStatus.NOT_FOUND);
 		}
 	}
 }

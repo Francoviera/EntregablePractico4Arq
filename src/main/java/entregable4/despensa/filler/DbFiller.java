@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.IntStream;
 
 import entregable4.despensa.entities.Cliente;
@@ -30,7 +31,7 @@ public class DbFiller {
 	public CommandLineRunner initDb(ProductoService productos, ClienteService clientes, PedidoService pedidos,
 			ItemPedidoService itempedidos, ProductoStockService stock) {
 		return args -> {
-			IntStream.range(0, 50).forEach(i -> {
+			IntStream.range(0, 10).forEach(i -> {
 				int j = i + 1;
 
 				Producto p = new Producto("nombre" + j, "marca" + j);
@@ -40,28 +41,27 @@ public class DbFiller {
 				clientes.addCliente(c);
 
 				productosLista.add(p);
-				ProductoStock prodStock = new ProductoStock(p, (int) (Math.random() * 50), Math.round((Math.random() * 200) * 100.0) / 100.0);
+				ProductoStock prodStock = new ProductoStock(p, (int) (Math.random() * 50),
+						Math.round((Math.random() * 200) * 100.0) / 100.0);
 				stock.addProductoStock(prodStock);
 
 				clientesLista.add(c);
 
-				
-				
-				
-
-				ItemPedido item = new ItemPedido(productosLista.get((int) (Math.random() * productosLista.size()-1)),
-						(int) (Math.random() * 3));
+				ItemPedido item = new ItemPedido(productosLista.get((int) (Math.random() * productosLista.size() - 1)),
+						(int) (Math.random() * 2) + 1);
 
 				itemPedidosLista.add(item);
 				itempedidos.addItemPedido(item);
-				
-				int ini=(int) Math.random()*itemPedidosLista.size();
-				int max= (int) Math.random() * (itemPedidosLista.size()-1 - ini) +ini;
-				List<ItemPedido>sub=itemPedidosLista.subList(ini, max);
+
+				Random rand = new Random();
+				ItemPedido randomElement = itemPedidosLista.get(rand.nextInt(itemPedidosLista.size()));
+				ItemPedido randomElement2 = itemPedidosLista.get(rand.nextInt(itemPedidosLista.size()));
+
+				List<ItemPedido> sub = new ArrayList<ItemPedido>();
+				sub.add(randomElement);
+				sub.add(randomElement2);
 				Pedido pedido = new Pedido(clientesLista.get(i), sub);
 				pedidos.addPedido(pedido);
-				
-				
 
 			});
 		};

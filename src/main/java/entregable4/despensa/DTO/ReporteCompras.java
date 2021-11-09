@@ -1,6 +1,10 @@
 package entregable4.despensa.DTO;
 
-
+/**
+ * Punto 3
+ * @author Grupo 15
+ *
+ */
 public class ReporteCompras {
 	
 	private String nombreCliente;

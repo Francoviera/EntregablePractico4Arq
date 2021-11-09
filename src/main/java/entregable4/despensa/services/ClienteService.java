@@ -2,9 +2,11 @@ package entregable4.despensa.services;
 
 import java.security.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +27,7 @@ public class ClienteService {
 
 	@Autowired
 	private ClienteRepository clientes;
-	
+
 	@Autowired
 	private PedidoRepository pedidos;
 
@@ -36,41 +38,23 @@ public class ClienteService {
 	public List<Cliente> getAll() {
 		return this.clientes.findAll(); // pasar a paginado
 	}
-	
-	public ArrayList<ReporteCompras> getTotalOfPedidosByCliente() {
-		ArrayList<ReporteCompras> reporte= new ArrayList<ReporteCompras>();
-		List<Pedido> listPedidos= this.pedidos.findAll();
-		System.out.println(listPedidos);
-		for (Pedido pedido : listPedidos) {
-			reporte.add(new ReporteCompras(
-					pedido.getCliente().getNombre(),
-					pedido.getCliente().getApellido(),
-					pedido.getPrecioTotal()
-			));	
-		}
-		
-		return reporte;
-		
-	}
-	
-	public ArrayList<ReporteCompras> getSalesByDay(Date date) {
-		System.out.println(date);
-		ArrayList<ReporteCompras> reporte= new ArrayList<ReporteCompras>();
-		List<Pedido> listPedidos= this.pedidos.findPedidoByMomentoDeCompra(date);
-//		Collections.sort(pedidos, new SortByDate());
-		for (Pedido pedido : listPedidos) {
-			reporte.add(new ReporteCompras(
-					pedido.getCliente().getNombre(),
-					pedido.getCliente().getApellido(),
-					pedido.getPrecioTotal()
-			));	
-		}
-		System.out.println(listPedidos);
 
-		
+	// ya esta
+	public ArrayList<ReporteCompras> getTotalOfPedidosByCliente() {
+		// ESTE RESUELVE EL PUNTO 3, PARA CADA CLIENTE, NOMBRE Y TOTAL GASTADO
+		ArrayList<ReporteCompras> reporte = new ArrayList<ReporteCompras>();
+		List<Pedido> listPedidos = this.pedidos.findAll();
+//		System.out.println(listPedidos);
+		for (Pedido pedido : listPedidos) {
+			reporte.add(new ReporteCompras(pedido.getCliente().getNombre(), pedido.getCliente().getApellido(),
+					pedido.getPrecioTotal()));
+		}
+
 		return reporte;
-		
+
 	}
+
+
 
 	public Boolean addCliente(Cliente c) {
 		return this.clientes.save(c) != null;

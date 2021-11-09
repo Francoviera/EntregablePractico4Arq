@@ -2,12 +2,16 @@ package entregable4.despensa.services;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import entregable4.despensa.DTO.ReporteVentasPorDia;
 import entregable4.despensa.entities.ItemPedido;
 import entregable4.despensa.entities.Pedido;
 import entregable4.despensa.entities.ProductoStock;
@@ -35,30 +39,30 @@ public class PedidoService {
 	public List<Pedido> getPedidos() {
 		return this.pedidos.findAll();
 	}
-	
+
 	public void deletePedido(Pedido p) {
 		this.pedidos.delete(p);
 	}
 
 	public boolean addPedido(Pedido p) {
-
 		// ACA LE DEFINIMOS LA FECHA
 		Date date = this.definirHora();
-
 		p.setMomentoCompra(date);
-
 		// ACA APLICO LA SECRETARIA DE COMERCIO
 		List<ItemPedido> listaNueva = p.getPedidos();
 		if (listaNueva != null) {
 			// traer los pedidos del cliente
-			if (chequearCantidad(p, date, listaNueva)) {
+			if (!chequearCantidad(p, date, listaNueva)) {
 				return false;
 			}
-			if (venderPedido(p, listaNueva)) {
+			if (!venderPedido(p, listaNueva)) {
 				return false;
 			}
+		}else {
+			return false;
 		}
-
+		
+		
 		return this.pedidos.save(p) != null;
 	}
 
@@ -106,6 +110,45 @@ public class PedidoService {
 		}
 		return true;
 	}
+	
+	public ArrayList<ReporteVentasPorDia> getSalesByDay() {
+		ArrayList<ReporteVentasPorDia> reporte = new ArrayList<ReporteVentasPorDia>();
+		List<Pedido> listPedidos = this.pedidos.findPedidosByDay();
+		int cantidad = 0;
+		int montototal = 0;
+		Date momento = null;
 
+		Calendar c = new GregorianCalendar();
+		for (Pedido pedido : listPedidos) {
+			Date aux = pedido.getMomentoCompra();
+			Calendar c1 = new GregorianCalendar();
+			c1.setTime(aux);
+			if (momento == null) {
+				// puedo sumar
+				montototal += pedido.getPrecioTotal();
+				cantidad += pedido.getPedidos().size();
+				momento = aux;
+				c.setTime(momento);
+			} else if (c.get(Calendar.DATE) == c1.get(Calendar.DATE) && c.get(Calendar.MONTH) == c1.get(Calendar.MONTH)
+					&& c.get(Calendar.YEAR) == c1.get(Calendar.YEAR)) {
+				montototal += pedido.getPrecioTotal();
+				cantidad += pedido.getPedidos().size();
+			} else {
+				ReporteVentasPorDia report = new ReporteVentasPorDia(momento, cantidad, montototal);
+				reporte.add(report);
+				cantidad = 0;
+				montototal = 0;
+				momento = null;
+			}
+
+		}
+		if (momento != null) {
+			ReporteVentasPorDia report = new ReporteVentasPorDia(momento, cantidad, montototal);
+			reporte.add(report);
+		}
+
+		return reporte;
+
+	}
 
 }

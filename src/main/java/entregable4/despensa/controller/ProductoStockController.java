@@ -50,14 +50,14 @@ public class ProductoStockController {
 		}
 	}
 
-	@DeleteMapping("")
-	public ResponseEntity<ProductoStock> deleteProductoStock(@RequestBody int id) {
+	@DeleteMapping("/{id}")
+	public ResponseEntity<ProductoStock> deleteProductoStock(@PathVariable("id") int id) {
 		Optional<ProductoStock> ProductoStock = productoStockService.getProductoStock(id);
-		if (ProductoStock.isEmpty()) {
+		if (!ProductoStock.isEmpty()) {
 			productoStockService.deleteProductoStock(ProductoStock.get());
-			return new ResponseEntity<>(ProductoStock.get(), HttpStatus.OK);
+			return new ResponseEntity<ProductoStock>(ProductoStock.get(), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<ProductoStock>(HttpStatus.NOT_FOUND);
 		}
 	}
 }

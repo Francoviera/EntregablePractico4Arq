@@ -2,6 +2,8 @@ package entregable4.despensa.controller;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import entregable4.despensa.DTO.ReporteVentasPorDia;
 import entregable4.despensa.entities.Pedido;
 import entregable4.despensa.services.PedidoService;
+
 @RestController
 @RequestMapping("/pedido")
 public class PedidoController {
@@ -50,21 +54,33 @@ public class PedidoController {
 		}
 	}
 
-	@DeleteMapping("")
-	public ResponseEntity<Pedido> deleteItemPedido(@RequestBody int id) {
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Pedido> deleteItemPedido(@PathVariable("id") int id) {
 		Optional<Pedido> pedido = pedidoService.getPedido(id);
-		if (pedido.isEmpty()) {
+		if (!pedido.isEmpty()) {
 			pedidoService.deletePedido(pedido.get());
-			return new ResponseEntity<>(pedido.get(), HttpStatus.OK);
+			return new ResponseEntity<Pedido>(pedido.get(), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Pedido>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
 	@GetMapping("cliente/{id}")
-	public List<Pedido> pedidosByCliente(@PathVariable("id") int id){
+	public List<Pedido> pedidosByCliente(@PathVariable("id") int id) {
 		Timestamp ts = new Timestamp(System.currentTimeMillis());
-		Date date=new Date(ts.getTime());
+		Date date = new Date(ts.getTime());
 		return pedidoService.getPedidosByCliente(id, date);
+	}
+	
+	@GetMapping("/ventasPorDia")
+	public ResponseEntity<ArrayList<ReporteVentasPorDia>> getSalesByDay()
+			throws ParseException {
+
+		ArrayList<ReporteVentasPorDia> reportes = pedidoService.getSalesByDay();
+		if (reportes.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<>(reportes, HttpStatus.OK);
+		}
 	}
 }

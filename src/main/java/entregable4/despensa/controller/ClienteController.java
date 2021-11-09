@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import entregable4.despensa.DTO.ReporteCompras;
+import entregable4.despensa.DTO.ReporteVentasPorDia;
 import entregable4.despensa.entities.Cliente;
 import entregable4.despensa.responses.responseDate;
 import entregable4.despensa.services.ClienteService;
@@ -26,26 +27,25 @@ import entregable4.despensa.services.ClienteService;
 @RestController
 @RequestMapping("/cliente")
 public class ClienteController {
-	
+
 	@Autowired
 	private ClienteService clienteService;
-	
-	
+
 	@GetMapping("")
-	public List<Cliente>getAll() {
+	public List<Cliente> getAll() {
 		return this.clienteService.getAll();
 	}
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<Cliente> getCliente(@PathVariable("id")int id){
-		Optional<Cliente> cliente =clienteService.getCliente(id);
-		if(cliente.isEmpty()) {
+	public ResponseEntity<Cliente> getCliente(@PathVariable("id") int id) {
+		Optional<Cliente> cliente = clienteService.getCliente(id);
+		if (cliente.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}else {
-			return new ResponseEntity<>(cliente.get(),HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(cliente.get(), HttpStatus.OK);
 		}
 	}
-	
+
 //	@PostMapping("/ventasPorDia")
 //	public ResponseEntity<ArrayList<ReporteCompras>> getSalesByDay(@RequestBody responseDate dateString) throws ParseException{
 //		SimpleDateFormat formato = new SimpleDateFormat("yyyy/mm/dd"); 
@@ -57,55 +57,40 @@ public class ClienteController {
 //			return new ResponseEntity<>(reportes,HttpStatus.OK);
 //		}
 //	}
-	
-	@GetMapping("/ventasPorDia/{date}")
-	public ResponseEntity<ArrayList<ReporteCompras>> getSalesByDay(@PathVariable("date")String date) throws ParseException{
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd"); 
-//        Date date = format.parse("20-08-1981"); 
-		System.out.println(format.parse("2021-11-04"));
-        Date finalDate = format.parse("2021-11-04"); 
-        
-		ArrayList<ReporteCompras> reportes =clienteService.getSalesByDay(finalDate);
-		if(reportes.isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}else {
-			return new ResponseEntity<>(reportes,HttpStatus.OK);
-		}
-	}
-	
+
 	@GetMapping("/reporteDeVentas")
-	public ResponseEntity<ArrayList<ReporteCompras>> getSalesByClient(){
-		ArrayList<ReporteCompras> reportes =clienteService.getTotalOfPedidosByCliente();
-		if(reportes.isEmpty()) {
+	public ResponseEntity<ArrayList<ReporteCompras>> getSalesByClient() {
+		// ESTE RESUELVE EL PUNTO 3, PARA CADA CLIENTE, NOMBRE Y TOTAL GASTADO
+		ArrayList<ReporteCompras> reportes = clienteService.getTotalOfPedidosByCliente();
+		if (reportes.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}else {
-			return new ResponseEntity<>(reportes,HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(reportes, HttpStatus.OK);
 		}
 	}
-	
-	
+
 	@PostMapping("")
-	public ResponseEntity<Cliente> addCliente(@RequestBody Cliente c){
-		boolean ok=  clienteService.addCliente(c);
-		if(!ok) {
+	public ResponseEntity<Cliente> addCliente(@RequestBody Cliente c) {
+		boolean ok = clienteService.addCliente(c);
+		if (!ok) {
 			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 
-		}else {
-			return new ResponseEntity<>(c,HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(c, HttpStatus.OK);
 		}
 	}
-	
-	@DeleteMapping("")
-	public ResponseEntity<Cliente> deleteCliente(@RequestBody int id){
-		Optional<Cliente> cliente=  clienteService.getCliente(id);
-		if(cliente.isEmpty()) {
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Cliente> deleteCliente(@PathVariable("id") int id) {
+		Optional<Cliente> cliente = clienteService.getCliente(id);
+		if (!cliente.isEmpty()) {
 			clienteService.deleteCliente(cliente.get());
-			return new ResponseEntity<>(cliente.get(), HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(cliente.get(),HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Cliente>(cliente.get(), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Cliente>(cliente.get(), HttpStatus.NOT_FOUND);
 		}
 	}
-	
-	//@PostMapping("/buyProduct")
+
+	// @PostMapping("/buyProduct")
 
 }
