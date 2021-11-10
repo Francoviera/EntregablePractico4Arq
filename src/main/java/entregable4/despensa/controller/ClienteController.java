@@ -20,7 +20,7 @@ import entregable4.despensa.entities.Cliente;
 import entregable4.despensa.services.ClienteService;
 
 @RestController
-@RequestMapping("/clientes")
+@RequestMapping("/clientes") // la convencion es plural
 public class ClienteController {
 
 	@Autowired
