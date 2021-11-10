@@ -12,7 +12,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class ProductoStock {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idProductoStock;
 	@OneToOne
 	@JoinColumn(name = "idProducto")

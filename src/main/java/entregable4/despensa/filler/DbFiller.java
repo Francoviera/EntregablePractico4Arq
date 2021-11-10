@@ -4,6 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -31,7 +32,7 @@ public class DbFiller {
 	public CommandLineRunner initDb(ProductoService productos, ClienteService clientes, PedidoService pedidos,
 			ItemPedidoService itempedidos, ProductoStockService stock) {
 		return args -> {
-			IntStream.range(0, 10).forEach(i -> {
+			IntStream.range(0, 20).forEach(i -> {
 				int j = i + 1;
 
 				Producto p = new Producto("nombre" + j, "marca" + j);
@@ -60,7 +61,15 @@ public class DbFiller {
 				List<ItemPedido> sub = new ArrayList<ItemPedido>();
 				sub.add(randomElement);
 				sub.add(randomElement2);
-				Pedido pedido = new Pedido(clientesLista.get(i), sub);
+				Pedido pedido;
+				if(Math.random()>0.5) {
+					 pedido = new Pedido(clientesLista.get(i), sub);
+				}else {
+					Long d= (long) (System.currentTimeMillis()*Math.random());
+					Date date= new Date(d);
+					pedido= new Pedido(clientesLista.get(i), sub,date);
+				}
+				
 				pedidos.addPedido(pedido);
 
 			});
