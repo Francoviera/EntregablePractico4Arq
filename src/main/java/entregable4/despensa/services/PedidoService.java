@@ -48,6 +48,13 @@ public class PedidoService {
 		this.pedidos.delete(p);
 	}
 
+	/**
+	 * Permite agregar un pedido siempre y cuando el cliente no supere el limite de
+	 * compra de 3 productos por pedido por dia
+	 * 
+	 * @param p un objeto pedido
+	 * @return retorna true si el pedido pudo agregarse o false si no
+	 */
 	public boolean addPedido(Pedido p) {
 		// ACA LE DEFINIMOS LA FECHA
 		if (p.getMomentoCompra() == null) {
@@ -72,12 +79,27 @@ public class PedidoService {
 		return this.pedidos.save(p) != null;
 	}
 
+	/**
+	 * Define la hora actual en caso de que el pedido no venga con una fecha cargada
+	 * 
+	 * @return retorna un objeto Date
+	 */
 	private Date definirHora() {
 		Timestamp ts = new Timestamp(System.currentTimeMillis());
 		Date date = new Date(ts.getTime());
 		return date;
 	}
 
+	/**
+	 * Permite hacer la operacion de venta recorriendo todos los itemspedidos y
+	 * asegurandose que haya stock disponible, ademas calcula el precio total del
+	 * pedido
+	 * 
+	 * @param p          el pedido en cuestion
+	 * @param listaNueva una lista con los itemspedidos (que son un producto y la
+	 *                   cantidad a agregar)
+	 * @return retorna true si la operación fue exitosa o false si no lo fue
+	 */
 	private boolean venderPedido(Pedido p, List<ItemPedido> listaNueva) {
 		double precioTotal = 0;
 		for (ItemPedido item : listaNueva) {
@@ -100,6 +122,14 @@ public class PedidoService {
 		return true;
 	}
 
+	/**
+	 * Verifica que el usuario no haya superado el limite de ventas establecido
+	 * 
+	 * @param p          un pedido
+	 * @param date       la fecha en la que se realizo el pedido
+	 * @param listaNueva la lista de los itemspedidos del pedido en cuestión
+	 * @return retorna true si la operación fue exitosa o false si no lo fue
+	 */
 	private boolean chequearCantidad(Pedido p, Date date, List<ItemPedido> listaNueva) {
 		List<Pedido> lista = this.getPedidosByCliente(p.getCliente().getId(), date);
 		for (Pedido pedido : lista) {
@@ -117,6 +147,13 @@ public class PedidoService {
 		return true;
 	}
 
+	/**
+	 * Realiza un reporte de las ventas por dia incluyendo monto y cantidad de
+	 * productos que se vendieron
+	 * 
+	 * @return retorna un ArrayList de ReporteVentasPorDia que es un Data Transfer
+	 *         Object creado para esta operación
+	 */
 	public ArrayList<ReporteVentasPorDia> getSalesByDay() {
 		ArrayList<ReporteVentasPorDia> reporte = new ArrayList<ReporteVentasPorDia>();
 		List<Pedido> listPedidos = this.pedidos.findPedidosByDay();
@@ -127,28 +164,23 @@ public class PedidoService {
 		Calendar c = new GregorianCalendar();
 		for (Pedido pedido : listPedidos) {
 			Date aux = pedido.getMomentoCompra();
-//			System.out.println("momentocompra= " + aux);
-//			System.out.println("momentocompraanterior= " + momento);
 			Calendar c1 = new GregorianCalendar();
 			c1.setTime(aux);
 			if (momento == null) {
-				// puedo sumar
 				montototal += pedido.getPrecioTotal();
 				cantidad += pedido.getPedidos().size();
 				momento = aux;
 				c.setTime(momento);
-			} else if (this.areEqualDays(c,c1)) {
+			} else if (this.areEqualDays(c, c1)) {
 				montototal += pedido.getPrecioTotal();
 				cantidad += pedido.getPedidos().size();
-//				System.out.println("este else if no funciona ");
-//				este else if no funciona 
 			} else {
 				ReporteVentasPorDia report = new ReporteVentasPorDia(momento, cantidad, montototal);
 				reporte.add(report);
 				cantidad = pedido.getPedidos().size();
 				montototal = pedido.getPrecioTotal();
 				momento = aux;
-				c.setTime(momento); // faltaba esto
+				c.setTime(momento);
 			}
 
 		}
@@ -161,9 +193,16 @@ public class PedidoService {
 
 	}
 
+	/**
+	 * Permite definir si dos fechas son las mismas
+	 * 
+	 * @param c  un objeto Calendar
+	 * @param c1 un objeto Calendar
+	 * @return retorna true si las dos fechas son las mismas o false si no lo son
+	 */
 	private boolean areEqualDays(Calendar c, Calendar c1) {
-		boolean sameDay=c.get(Calendar.DAY_OF_YEAR) == c1.get(Calendar.DAY_OF_YEAR) &&
-                c.get(Calendar.YEAR) == c1.get(Calendar.YEAR);
+		boolean sameDay = c.get(Calendar.DAY_OF_YEAR) == c1.get(Calendar.DAY_OF_YEAR)
+				&& c.get(Calendar.YEAR) == c1.get(Calendar.YEAR);
 		return sameDay;
 	}
 }

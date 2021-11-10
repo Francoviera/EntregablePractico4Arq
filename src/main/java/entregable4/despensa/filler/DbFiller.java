@@ -28,6 +28,17 @@ public class DbFiller {
 	private static ArrayList<Producto> productosLista = new ArrayList<Producto>();
 	private static ArrayList<ItemPedido> itemPedidosLista = new ArrayList<ItemPedido>();
 
+	/**
+	 * Se persisten datos de manera automatica mediante un forEach y se aleatorizan
+	 * sus parametros con el iterador del mismo
+	 * 
+	 * @param productos   un Servicio de productos
+	 * @param clientes    un Servicio de clientes
+	 * @param pedidos     un Servicio de pedidos
+	 * @param itempedidos un Servicio de itempedidos
+	 * @param stock       un Servicio de productosstock
+	 * @return retorna un CommandLinerRunner
+	 */
 	@Bean
 	public CommandLineRunner initDb(ProductoService productos, ClienteService clientes, PedidoService pedidos,
 			ItemPedidoService itempedidos, ProductoStockService stock) {
@@ -62,14 +73,14 @@ public class DbFiller {
 				sub.add(randomElement);
 				sub.add(randomElement2);
 				Pedido pedido;
-				if(Math.random()>0.5) {
-					 pedido = new Pedido(clientesLista.get(i), sub);
-				}else {
-					Long d= (long) (System.currentTimeMillis()*Math.random());
-					Date date= new Date(d);
-					pedido= new Pedido(clientesLista.get(i), sub,date);
+				if (Math.random() > 0.5) {
+					pedido = new Pedido(clientesLista.get(i), sub);
+				} else {
+					Long d = (long) (System.currentTimeMillis() * Math.random());
+					Date date = new Date(d);
+					pedido = new Pedido(clientesLista.get(i), sub, date);
 				}
-				
+
 				pedidos.addPedido(pedido);
 
 			});

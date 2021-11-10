@@ -31,14 +31,4 @@ public class ProductoStockService {
 	public void deleteProductoStock(ProductoStock p) {
 		this.productoStock.delete(p);
 	}
-
-//	public boolean buyProduct(Pedido itemPedido) {
-//		ProductoStock producto = this.productoStock.getById(itemPedido.getProducto().getId());
-//		int quantityBuy = itemPedido.getCantidad();
-//		if (producto.getStock() >= quantityBuy) {
-//			producto.setStock(producto.getStock() - quantityBuy);
-//			return true;
-//		}
-//		return false;
-//	}
 }
