@@ -3,6 +3,8 @@ package entregable4.despensa.services;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -138,7 +140,7 @@ public class PedidoService {
 			} else if (this.areEqualDays(c,c1)) {
 				montototal += pedido.getPrecioTotal();
 				cantidad += pedido.getPedidos().size();
-				System.out.println("este else if no funciona ");
+//				System.out.println("este else if no funciona ");
 //				este else if no funciona 
 			} else {
 				ReporteVentasPorDia report = new ReporteVentasPorDia(momento, cantidad, montototal);
@@ -146,6 +148,7 @@ public class PedidoService {
 				cantidad = pedido.getPedidos().size();
 				montototal = pedido.getPrecioTotal();
 				momento = aux;
+				c.setTime(momento); // faltaba esto
 			}
 
 		}
@@ -158,7 +161,9 @@ public class PedidoService {
 
 	}
 
-	private boolean areEqualDays(Calendar c1, Calendar c2) {
-	    return false;
+	private boolean areEqualDays(Calendar c, Calendar c1) {
+		boolean sameDay=c.get(Calendar.DAY_OF_YEAR) == c1.get(Calendar.DAY_OF_YEAR) &&
+                c.get(Calendar.YEAR) == c1.get(Calendar.YEAR);
+		return sameDay;
 	}
 }
