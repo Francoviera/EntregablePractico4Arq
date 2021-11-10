@@ -41,7 +41,7 @@ public class ClienteController {
 		}
 	}
 
-	@GetMapping("/reporteDeVentas")
+	@GetMapping("/reportedeventas")
 	public ResponseEntity<ArrayList<ReporteCompras>> getSalesByClient() {
 		// ESTE RESUELVE EL PUNTO 3, PARA CADA CLIENTE, NOMBRE Y TOTAL GASTADO
 		ArrayList<ReporteCompras> reportes = clienteService.getTotalOfPedidosByCliente();

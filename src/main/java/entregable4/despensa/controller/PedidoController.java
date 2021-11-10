@@ -65,12 +65,6 @@ public class PedidoController {
 		}
 	}
 
-	@GetMapping("/cliente/{id}")
-	public List<Pedido> pedidosByCliente(@PathVariable("id") int id) {
-		Timestamp ts = new Timestamp(System.currentTimeMillis());
-		Date date = new Date(ts.getTime());
-		return pedidoService.getPedidosByCliente(id, date);
-	}
 	
 	@GetMapping("/ventasdiarias")
 	public ResponseEntity<ArrayList<ReporteVentasPorDia>> getSalesByDay()
