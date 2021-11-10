@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import entregable4.despensa.DTO.MasVendido;
 import entregable4.despensa.entities.Producto;
 import entregable4.despensa.services.ProductoService;
+import org.springframework.web.bind.annotation.*;
+
+
+@CrossOrigin(origins = "*", methods= {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE})
 
 @RestController
 @RequestMapping("/productos") // la convencion es plural
