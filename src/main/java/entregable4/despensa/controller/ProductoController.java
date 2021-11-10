@@ -19,14 +19,14 @@ import entregable4.despensa.entities.Producto;
 import entregable4.despensa.services.ProductoService;
 
 @RestController
-@RequestMapping("/producto")
+@RequestMapping("/productos") // la convencion es plural
 public class ProductoController {
 
 	@Autowired
 	private ProductoService productoService;
 
 	@GetMapping("")
-	public List<Producto> getAll() {
+	public List<Producto> getAllProductos() {
 		return this.productoService.getProductos();
 	}
 

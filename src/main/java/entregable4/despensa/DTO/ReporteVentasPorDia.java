@@ -3,9 +3,9 @@ package entregable4.despensa.DTO;
 import java.util.Date;
 
 /**
+ * DTO Creado para devolver el reporte de ventas por dia
  * Punto 4
- * @author Martin
- *
+ * @author Grupo 15
  */
 public class ReporteVentasPorDia {
 	

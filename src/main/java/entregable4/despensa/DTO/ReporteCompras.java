@@ -1,9 +1,9 @@
 package entregable4.despensa.DTO;
 
 /**
+ * DTO Creado para devolver el reporte de clientes y el monto total de sus compras
  * Punto 3
  * @author Grupo 15
- *
  */
 public class ReporteCompras {
 	

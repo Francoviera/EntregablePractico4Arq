@@ -1,6 +1,10 @@
 package entregable4.despensa.DTO;
 
-
+/**
+ * DTO Creado para devolver el reporte del producto mas vendido
+ * Punto 5
+ * @author Grupo 15
+ */
 public class MasVendido {
 
 	

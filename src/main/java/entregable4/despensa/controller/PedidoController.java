@@ -23,18 +23,18 @@ import entregable4.despensa.entities.Pedido;
 import entregable4.despensa.services.PedidoService;
 
 @RestController
-@RequestMapping("/pedido")
+@RequestMapping("/pedidos") // la convencion es plural
 public class PedidoController {
 	@Autowired
 	private PedidoService pedidoService;
 
 	@GetMapping("")
-	public List<Pedido> getAll() {
+	public List<Pedido> getAllPedidos() {
 		return this.pedidoService.getPedidos();
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Pedido> getItemPedido(@PathVariable("id") int id) {
+	public ResponseEntity<Pedido> getPedido(@PathVariable("id") int id) {
 		Optional<Pedido> pedido = pedidoService.getPedido(id);
 		if (pedido.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -44,7 +44,7 @@ public class PedidoController {
 	}
 
 	@PostMapping("")
-	public ResponseEntity<Pedido> addItemPedido(@RequestBody Pedido p) {
+	public ResponseEntity<Pedido> addPedido(@RequestBody Pedido p) {
 		boolean ok = pedidoService.addPedido(p);
 		if (!ok) {
 			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
@@ -55,7 +55,7 @@ public class PedidoController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Pedido> deleteItemPedido(@PathVariable("id") int id) {
+	public ResponseEntity<Pedido> deletePedido(@PathVariable("id") int id) {
 		Optional<Pedido> pedido = pedidoService.getPedido(id);
 		if (!pedido.isEmpty()) {
 			pedidoService.deletePedido(pedido.get());
@@ -65,14 +65,14 @@ public class PedidoController {
 		}
 	}
 
-	@GetMapping("cliente/{id}")
+	@GetMapping("/cliente/{id}")
 	public List<Pedido> pedidosByCliente(@PathVariable("id") int id) {
 		Timestamp ts = new Timestamp(System.currentTimeMillis());
 		Date date = new Date(ts.getTime());
 		return pedidoService.getPedidosByCliente(id, date);
 	}
 	
-	@GetMapping("/ventasPorDia")
+	@GetMapping("/ventasdiarias")
 	public ResponseEntity<ArrayList<ReporteVentasPorDia>> getSalesByDay()
 			throws ParseException {
 

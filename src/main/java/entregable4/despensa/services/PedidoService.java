@@ -46,13 +46,16 @@ public class PedidoService {
 
 	public boolean addPedido(Pedido p) {
 		// ACA LE DEFINIMOS LA FECHA
-		Date date = this.definirHora();
-		p.setMomentoCompra(date);
+		if(p.getMomentoCompra()==null) {
+			Date date = this.definirHora();
+			p.setMomentoCompra(date);
+		}
+		
 		// ACA APLICO LA SECRETARIA DE COMERCIO
 		List<ItemPedido> listaNueva = p.getPedidos();
 		if (listaNueva != null) {
 			// traer los pedidos del cliente
-			if (!chequearCantidad(p, date, listaNueva)) {
+			if (!chequearCantidad(p, p.getMomentoCompra(), listaNueva)) {
 				return false;
 			}
 			if (!venderPedido(p, listaNueva)) {
@@ -115,7 +118,7 @@ public class PedidoService {
 		ArrayList<ReporteVentasPorDia> reporte = new ArrayList<ReporteVentasPorDia>();
 		List<Pedido> listPedidos = this.pedidos.findPedidosByDay();
 		int cantidad = 0;
-		int montototal = 0;
+		double montototal = 0;
 		Date momento = null;
 
 		Calendar c = new GregorianCalendar();
@@ -136,9 +139,9 @@ public class PedidoService {
 			} else {
 				ReporteVentasPorDia report = new ReporteVentasPorDia(momento, cantidad, montototal);
 				reporte.add(report);
-				cantidad = 0;
-				montototal = 0;
-				momento = null;
+				cantidad = pedido.getPedidos().size();
+				montototal = pedido.getPrecioTotal();
+				momento = aux;
 			}
 
 		}

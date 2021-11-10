@@ -19,14 +19,14 @@ import entregable4.despensa.entities.ItemPedido;
 import entregable4.despensa.services.ItemPedidoService;
 
 @RestController
-@RequestMapping("/itempedido")
+@RequestMapping("/itemspedidos") // la convencion es plural
 public class ItemPedidoController {
 
 	@Autowired
 	private ItemPedidoService itemPedidoService;
 
 	@GetMapping("")
-	public List<ItemPedido> getAll() {
+	public List<ItemPedido> getAllItemsPedidos() {
 		return this.itemPedidoService.getAll();
 	}
 

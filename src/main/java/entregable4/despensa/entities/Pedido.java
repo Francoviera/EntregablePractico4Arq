@@ -43,6 +43,13 @@ public class Pedido {
 		this.cliente = cliente;
 		this.pedidos= new ArrayList<ItemPedido>(itemspedidos);
 	}
+	
+	public Pedido(Cliente cliente, List<ItemPedido> itemspedidos, Date momentoCompra) {
+		super();
+		this.cliente = cliente;
+		this.pedidos= new ArrayList<ItemPedido>(itemspedidos);
+		this.momentoCompra=momentoCompra;
+	}
 
 	public Pedido() {
 		super();
