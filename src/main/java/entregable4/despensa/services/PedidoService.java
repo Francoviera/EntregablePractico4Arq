@@ -2,6 +2,7 @@ package entregable4.despensa.services;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -41,16 +42,17 @@ public class PedidoService {
 	}
 
 	public void deletePedido(Pedido p) {
+		System.out.print("pedido " + p);
 		this.pedidos.delete(p);
 	}
 
 	public boolean addPedido(Pedido p) {
 		// ACA LE DEFINIMOS LA FECHA
-		if(p.getMomentoCompra()==null) {
+		if (p.getMomentoCompra() == null) {
 			Date date = this.definirHora();
 			p.setMomentoCompra(date);
 		}
-		
+
 		// ACA APLICO LA SECRETARIA DE COMERCIO
 		List<ItemPedido> listaNueva = p.getPedidos();
 		if (listaNueva != null) {
@@ -61,11 +63,10 @@ public class PedidoService {
 			if (!venderPedido(p, listaNueva)) {
 				return false;
 			}
-		}else {
+		} else {
 			return false;
 		}
-		
-		
+
 		return this.pedidos.save(p) != null;
 	}
 
@@ -113,7 +114,7 @@ public class PedidoService {
 		}
 		return true;
 	}
-	
+
 	public ArrayList<ReporteVentasPorDia> getSalesByDay() {
 		ArrayList<ReporteVentasPorDia> reporte = new ArrayList<ReporteVentasPorDia>();
 		List<Pedido> listPedidos = this.pedidos.findPedidosByDay();
@@ -124,6 +125,8 @@ public class PedidoService {
 		Calendar c = new GregorianCalendar();
 		for (Pedido pedido : listPedidos) {
 			Date aux = pedido.getMomentoCompra();
+//			System.out.println("momentocompra= " + aux);
+//			System.out.println("momentocompraanterior= " + momento);
 			Calendar c1 = new GregorianCalendar();
 			c1.setTime(aux);
 			if (momento == null) {
@@ -132,10 +135,11 @@ public class PedidoService {
 				cantidad += pedido.getPedidos().size();
 				momento = aux;
 				c.setTime(momento);
-			} else if (c.get(Calendar.DATE) == c1.get(Calendar.DATE) && c.get(Calendar.MONTH) == c1.get(Calendar.MONTH)
-					&& c.get(Calendar.YEAR) == c1.get(Calendar.YEAR)) {
+			} else if (this.areEqualDays(c,c1)) {
 				montototal += pedido.getPrecioTotal();
 				cantidad += pedido.getPedidos().size();
+				System.out.println("este else if no funciona ");
+//				este else if no funciona 
 			} else {
 				ReporteVentasPorDia report = new ReporteVentasPorDia(momento, cantidad, montototal);
 				reporte.add(report);
@@ -154,4 +158,7 @@ public class PedidoService {
 
 	}
 
+	private boolean areEqualDays(Calendar c1, Calendar c2) {
+	    return false;
+	}
 }

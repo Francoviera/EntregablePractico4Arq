@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 public class Producto {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idProducto;
 	@Column
 	private String nombreProducto;
