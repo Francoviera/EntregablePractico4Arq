@@ -9,23 +9,28 @@ import org.springframework.http.ResponseEntity;
 
 import entregable4.despensa.entities.ProductoStock;
 import entregable4.despensa.services.ProductoStockService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", methods= {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE})
 @RestController
 @RequestMapping("/productosstock") // la convencion es plural
+@Api(value = "ProductoStockController")
 public class ProductoStockController {
 
 	@Autowired
 	private ProductoStockService productoStockService;
 
 	@GetMapping("")
+	@ApiOperation(value = "Obtener una lista de todos los productos que hay en stock")
 	public List<ProductoStock> getAllProductosStock() {
 		return this.productoStockService.getProductoStock();
 	}
 
 	@GetMapping("/{id}")
+	@ApiOperation(value = "Obtiene un producto del stock por su identificador único")
 	public ResponseEntity<ProductoStock> getProductoStock(@PathVariable("id") int id) {
 		Optional<ProductoStock> Producto = productoStockService.getProductoStock(id);
 		if (Producto.isEmpty()) {
@@ -36,6 +41,7 @@ public class ProductoStockController {
 	}
 
 	@PostMapping("")
+	@ApiOperation(value = "Agrega un producto al stock")
 	public ResponseEntity<ProductoStock> addProductoStock(@RequestBody ProductoStock p) {
 		boolean ok = productoStockService.addProductoStock(p);
 		if (!ok) {
@@ -47,6 +53,7 @@ public class ProductoStockController {
 	}
 
 	@DeleteMapping("/{id}")
+	@ApiOperation(value = "Elimina un producto del stock por su identificador único")
 	public ResponseEntity<ProductoStock> deleteProductoStock(@PathVariable("id") int id) {
 		Optional<ProductoStock> ProductoStock = productoStockService.getProductoStock(id);
 		if (!ProductoStock.isEmpty()) {

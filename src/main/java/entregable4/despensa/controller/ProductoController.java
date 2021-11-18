@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import entregable4.despensa.DTO.MasVendido;
 import entregable4.despensa.entities.Producto;
 import entregable4.despensa.services.ProductoService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import org.springframework.web.bind.annotation.*;
 
 
@@ -24,17 +27,20 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/productos") // la convencion es plural
+@Api(value = "ProductoController")
 public class ProductoController {
 
 	@Autowired
 	private ProductoService productoService;
 
 	@GetMapping("")
+	@ApiOperation(value = "Obtener una lista de todos los productos")
 	public List<Producto> getAllProductos() {
 		return this.productoService.getProductos();
 	}
 
 	@GetMapping("/{id}")
+	@ApiOperation(value = "Obtiene un producto por su identificador único")
 	public ResponseEntity<Producto> getProducto(@PathVariable("id") int id) {
 		Optional<Producto> producto = productoService.getProducto(id);
 		if (producto.isEmpty()) {
@@ -45,6 +51,7 @@ public class ProductoController {
 	}
 
 	@PostMapping("")
+	@ApiOperation(value = "Crea un producto")
 	public ResponseEntity<Producto> addProducto(@RequestBody Producto p) {
 		boolean ok = productoService.addProducto(p);
 		if (!ok) {
@@ -56,6 +63,7 @@ public class ProductoController {
 	}
 
 	@DeleteMapping("/{id}")
+	@ApiOperation(value = "Elimina un producto por su identificador único")
 	public ResponseEntity<Producto> deleteProducto(@PathVariable("id") int id) {
 		Optional<Producto> producto = productoService.getProducto(id);
 		if (!producto.isEmpty()) {
@@ -67,6 +75,7 @@ public class ProductoController {
 	}
 	
 	@GetMapping("/masvendido")
+	@ApiOperation(value = "Obtiene el producto mas vendido")
 	public ResponseEntity<MasVendido> getMasVendido(){
 		Optional<MasVendido> masvendido= productoService.getProductoMasVendido();
 		if(!masvendido.isEmpty()) {
