@@ -43,7 +43,7 @@ public class ProductoController {
 	@ApiOperation(value = "Obtiene un producto por su identificador único")
 	public ResponseEntity<Producto> getProducto(@PathVariable("id") int id) {
 		Optional<Producto> producto = productoService.getProducto(id);
-		if (producto.isEmpty()) {
+		if (!producto.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(producto.get(), HttpStatus.OK);
@@ -66,7 +66,7 @@ public class ProductoController {
 	@ApiOperation(value = "Elimina un producto por su identificador único")
 	public ResponseEntity<Producto> deleteProducto(@PathVariable("id") int id) {
 		Optional<Producto> producto = productoService.getProducto(id);
-		if (!producto.isEmpty()) {
+		if (producto.isPresent()) {
 			productoService.deleteProducto(producto.get());
 			return new ResponseEntity<Producto>(producto.get(), HttpStatus.OK);
 		} else {
@@ -78,7 +78,7 @@ public class ProductoController {
 	@ApiOperation(value = "Obtiene el producto mas vendido")
 	public ResponseEntity<MasVendido> getMasVendido(){
 		Optional<MasVendido> masvendido= productoService.getProductoMasVendido();
-		if(!masvendido.isEmpty()) {
+		if(masvendido.isPresent()) {
 			return new ResponseEntity<MasVendido>(masvendido.get(), HttpStatus.OK);
 		}else {
 			return new ResponseEntity<MasVendido>(HttpStatus.NOT_FOUND);

@@ -44,7 +44,7 @@ public class ProductoService {
 	 */
 	public Optional<MasVendido> getProductoMasVendido() {
 		List<ItemPedido> items = this.itemPedidos.obtenerMasVendido();
-		if (items.isEmpty()) {
+		if (items==null) {
 			return Optional.ofNullable(null);
 		}
 

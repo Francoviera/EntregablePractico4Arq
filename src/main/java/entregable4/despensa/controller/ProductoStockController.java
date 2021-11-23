@@ -33,7 +33,7 @@ public class ProductoStockController {
 	@ApiOperation(value = "Obtiene un producto del stock por su identificador único")
 	public ResponseEntity<ProductoStock> getProductoStock(@PathVariable("id") int id) {
 		Optional<ProductoStock> Producto = productoStockService.getProductoStock(id);
-		if (Producto.isEmpty()) {
+		if (!Producto.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(Producto.get(), HttpStatus.OK);
@@ -56,7 +56,7 @@ public class ProductoStockController {
 	@ApiOperation(value = "Elimina un producto del stock por su identificador único")
 	public ResponseEntity<ProductoStock> deleteProductoStock(@PathVariable("id") int id) {
 		Optional<ProductoStock> ProductoStock = productoStockService.getProductoStock(id);
-		if (!ProductoStock.isEmpty()) {
+		if (ProductoStock.isPresent()) {
 			productoStockService.deleteProductoStock(ProductoStock.get());
 			return new ResponseEntity<ProductoStock>(ProductoStock.get(), HttpStatus.OK);
 		} else {

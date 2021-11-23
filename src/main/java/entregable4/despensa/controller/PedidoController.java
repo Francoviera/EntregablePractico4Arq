@@ -35,7 +35,7 @@ public class PedidoController {
 	@ApiOperation(value="Obtiene un pedido por su identificador único")
 	public ResponseEntity<Pedido> getPedido(@PathVariable("id") int id) {
 		Optional<Pedido> pedido = pedidoService.getPedido(id);
-		if (pedido.isEmpty()) {
+		if (!pedido.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(pedido.get(), HttpStatus.OK);
@@ -58,7 +58,7 @@ public class PedidoController {
 	@ApiOperation(value = "Elimina un pedido por su identificador único")
 	public ResponseEntity<Pedido> deletePedido(@PathVariable("id") int id) {
 		Optional<Pedido> pedido = pedidoService.getPedido(id);
-		if (!pedido.isEmpty()) {
+		if (pedido.isPresent()) {
 			pedidoService.deletePedido(pedido.get());
 			return new ResponseEntity<Pedido>(pedido.get(), HttpStatus.OK);
 		} else {
@@ -73,7 +73,7 @@ public class PedidoController {
 			throws ParseException {
 
 		ArrayList<ReporteVentasPorDia> reportes = pedidoService.getSalesByDay();
-		if (reportes.isEmpty()) {
+		if (reportes==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(reportes, HttpStatus.OK);

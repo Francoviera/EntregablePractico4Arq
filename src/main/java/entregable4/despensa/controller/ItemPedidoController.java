@@ -34,7 +34,7 @@ public class ItemPedidoController {
 	@ApiOperation(value="Obtiene un Item por su identificador único")
 	public ResponseEntity<ItemPedido> getItemPedido(@PathVariable("id") int id) {
 		Optional<ItemPedido> itemPedido = itemPedidoService.getItemPedido(id);
-		if (itemPedido.isEmpty()) {
+		if (!itemPedido.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(itemPedido.get(), HttpStatus.OK);
@@ -57,7 +57,7 @@ public class ItemPedidoController {
 	@ApiOperation(value="Elimina un Item por su identificador único")
 	public ResponseEntity<ItemPedido> deleteItemPedido(@PathVariable("id") int id) {
 		Optional<ItemPedido> itemPedido = itemPedidoService.getItemPedido(id);
-		if (!itemPedido.isEmpty()) {
+		if (itemPedido.isPresent()) {
 			itemPedidoService.deleteItemPedido(itemPedido.get());
 			return new ResponseEntity<>(itemPedido.get(), HttpStatus.OK);
 		} else {

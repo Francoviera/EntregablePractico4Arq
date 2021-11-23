@@ -35,7 +35,7 @@ public class ClienteController {
 	@ApiOperation(value = "Obtiene un cliente por su identificador único")
 	public ResponseEntity<Cliente> getCliente(@PathVariable("id") int id) {
 		Optional<Cliente> cliente = clienteService.getCliente(id);
-		if (cliente.isEmpty()) {
+		if (!cliente.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(cliente.get(), HttpStatus.OK);
@@ -58,7 +58,7 @@ public class ClienteController {
 	@ApiOperation(value = "Elimina un cliente por su identificador único")
 	public ResponseEntity<Cliente> deleteCliente(@PathVariable("id") int id) {
 		Optional<Cliente> cliente = clienteService.getCliente(id);
-		if (!cliente.isEmpty()) {
+		if (cliente.isPresent()) {
 			clienteService.deleteCliente(cliente.get());
 			return new ResponseEntity<Cliente>(cliente.get(), HttpStatus.OK);
 		} else {
@@ -71,7 +71,7 @@ public class ClienteController {
 	public ResponseEntity<ArrayList<ReporteCompras>> getSalesByClient() {
 		// ESTE RESUELVE EL PUNTO 3, PARA CADA CLIENTE, NOMBRE Y TOTAL GASTADO
 		ArrayList<ReporteCompras> reportes = clienteService.getTotalOfPedidosByCliente();
-		if (reportes.isEmpty()) {
+		if (reportes==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(reportes, HttpStatus.OK);

@@ -113,7 +113,9 @@ public class PedidoService {
 					if (stockDisponible < cantidadPedir) {
 						return false;
 					} else {
+						// ACTUALIZAR
 						productoStock.setStock(stockDisponible - cantidadPedir);
+						productoStock.getId();
 						precioTotal += cantidadPedir * precio;
 					}
 				}
