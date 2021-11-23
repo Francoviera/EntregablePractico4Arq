@@ -102,20 +102,23 @@ public class PedidoService {
 	 */
 	private boolean venderPedido(Pedido p, List<ItemPedido> listaNueva) {
 		double precioTotal = 0;
+		List<ProductoStock> list = stock.findAll();
 		for (ItemPedido item : listaNueva) {
 			int cantidadPedir = item.getCantidad();
 
-			int id = item.getProducto().getId();
-			ProductoStock productoStock = stock.findStockByIdProducto(id);
-
-			double precio = productoStock.getPrecio();
-			int stockDisponible = productoStock.getStock();
-			if (stockDisponible < cantidadPedir) {
-				return false;
-			} else {
-				productoStock.setStock(stockDisponible - cantidadPedir);
-				precioTotal += cantidadPedir * precio;
+			for (ProductoStock productoStock : list) {
+				if (productoStock.getProducto().getId() == item.getProducto().getId()) {
+					double precio = productoStock.getPrecio();
+					int stockDisponible = productoStock.getStock();
+					if (stockDisponible < cantidadPedir) {
+						return false;
+					} else {
+						productoStock.setStock(stockDisponible - cantidadPedir);
+						precioTotal += cantidadPedir * precio;
+					}
+				}
 			}
+
 		}
 
 		p.setPrecioTotal(precioTotal);
@@ -135,13 +138,16 @@ public class PedidoService {
 		for (Pedido pedido : lista) {
 			List<ItemPedido> listaAux = pedido.getPedidos();
 			for (ItemPedido item : listaAux) {
-				if (listaNueva.contains(item)) {
-					int contador = item.getCantidad() + listaNueva.get(listaNueva.indexOf(item)).getCantidad();
-					if (contador > 3) {
-//						rechazar pedido;
-						return false;
+				for (ItemPedido nueva : listaNueva) {
+					if (nueva.getProducto().getId() == item.getProducto().getId()) {
+						int contador = item.getCantidad() + nueva.getCantidad();
+						if (contador > 3) {
+//							rechazar pedido;
+							return false;
+						}
 					}
 				}
+
 			}
 		}
 		return true;
