@@ -44,7 +44,7 @@ public class PedidoService {
 	}
 
 	public void deletePedido(Pedido p) {
-		System.out.print("pedido " + p);
+//		System.out.print("pedido " + p);
 		this.pedidos.delete(p);
 	}
 
@@ -114,9 +114,9 @@ public class PedidoService {
 						return false;
 					} else {
 						// ACTUALIZAR
-						int id=productoStock.getId();
-						int stockNuevo=stockDisponible - cantidadPedir;
-						
+						int id = productoStock.getId();
+						int stockNuevo = stockDisponible - cantidadPedir;
+
 						precioTotal += cantidadPedir * precio;
 						stock.updateStock(id, stockNuevo);
 					}
@@ -138,7 +138,31 @@ public class PedidoService {
 	 * @return retorna true si la operación fue exitosa o false si no lo fue
 	 */
 	private boolean chequearCantidad(Pedido p, Date date, List<ItemPedido> listaNueva) {
-		List<Pedido> lista = this.getPedidosByCliente(p.getCliente().getId(), date);
+		int clienteId = p.getCliente().getId();
+		List<Pedido> lista = this.getPedidosByCliente(clienteId, date);
+		
+		if (!chequearCantidadPedidoNuevo(listaNueva)) {
+			return false;
+		} else {
+			if (lista != null) {
+				chequearCantidadPedidoContraPedidos(lista, listaNueva);
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Chequea que la cantidad comprada previamente mas la cantidad que se quiere
+	 * adquirir sea menor o igual a 3
+	 * 
+	 * @param lista      la lista de pedidos del cliente en la fecha que se quiere
+	 *                   hacer el nuevo pedido
+	 * @param listaNueva la lista de items pedidos en el pedido nuevo
+	 * @return retorna true si la compra se puede hacer o false si la cantidad es
+	 *         excedida en algun item del pedido
+	 */
+	private boolean chequearCantidadPedidoContraPedidos(List<Pedido> lista, List<ItemPedido> listaNueva) {
 		for (Pedido pedido : lista) {
 			List<ItemPedido> listaAux = pedido.getPedidos();
 			for (ItemPedido item : listaAux) {
@@ -152,6 +176,25 @@ public class PedidoService {
 					}
 				}
 
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Chequea que ningun itempedido de la lista de itemspedidos tenga un numero
+	 * mayor a 3
+	 * 
+	 * @param listaNueva la lista de items pedidos a verificar
+	 * @return retorna true si ningun producto supera las 3 unidades o false si las
+	 *         supera
+	 */
+	private boolean chequearCantidadPedidoNuevo(List<ItemPedido> listaNueva) {
+		for (ItemPedido nueva : listaNueva) {
+			int contador = nueva.getCantidad();
+			if (contador > 3) {
+//				rechazar pedido;
+				return false;
 			}
 		}
 		return true;

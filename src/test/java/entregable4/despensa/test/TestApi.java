@@ -74,7 +74,7 @@ class TestApi {
 
 		for (ProductoStock prod : stockList) {
 			if (prod.getProducto().getNombreProducto().equals(p1.getNombreProducto())) {
-				assertEquals(prod.getStock(), stock.getStock() - item1.getCantidad()); // trae 10, 9
+				assertEquals(prod.getStock(), stock.getStock() - item1.getCantidad()); 
 			}
 		}
 	}
