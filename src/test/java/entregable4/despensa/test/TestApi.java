@@ -1,13 +1,15 @@
-package entregable4.despensa.junit;
+package entregable4.despensa.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
+import java.util.List;
+
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import entregable4.despensa.entities.Cliente;
 import entregable4.despensa.entities.ItemPedido;
@@ -20,22 +22,25 @@ import entregable4.despensa.services.PedidoService;
 import entregable4.despensa.services.ProductoService;
 import entregable4.despensa.services.ProductoStockService;
 
-public class TestApi {
-	private static ClienteService clienteService;
-	private static PedidoService pedidoService;
-	private static ItemPedidoService itemPedidoService;
-	private static ProductoService productoService;
-	private static ProductoStockService productoStockService;
+@SpringBootTest
+class TestApi {
+	@Autowired
+	private ClienteService clienteService;
+	@Autowired
+	private PedidoService pedidoService;
+	@Autowired
+	private ItemPedidoService itemPedidoService;
+	@Autowired
+	private ProductoService productoService;
+	@Autowired
+	private ProductoStockService productoStockService;
 
-	@BeforeAll
 	public static void initClass() {
 
 	}
 
-	/**
-	 * ESTO HAY QUE VERIFICARLO POR COMPLETO PORQUE NO SE LE PUEDEN PASAR LAS INSTANCIAS DE LOS SERVICIOS
-	 */
 	@Test
+	@Order(1)
 	public void testStock() {
 		// creo un cliente
 		Cliente c1 = new Cliente("Martin", "Aguirre", 39116326);
@@ -55,13 +60,14 @@ public class TestApi {
 		itemPedidoService.addItemPedido(item1);
 		productoStockService.addProductoStock(stock);
 		pedidoService.addPedido(pedido);
-		
-		List<ProductoStock>stockList=productoStockService.getProductoStock();
-		
-		for(ProductoStock prod: stockList ) {
-			if(prod.getProducto().getNombreProducto().equals(p1.getNombreProducto())) {
-				assertEquals(prod.getStock(), stock.getStock()- item1.getCantidad());
+
+		List<ProductoStock> stockList = productoStockService.getProductoStock();
+
+		for (ProductoStock prod : stockList) {
+			if (prod.getProducto().getNombreProducto().equals(p1.getNombreProducto())) {
+				assertEquals(prod.getStock(), stock.getStock() - item1.getCantidad());
 			}
 		}
 	}
 }
+
