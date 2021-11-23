@@ -54,11 +54,16 @@ public class ItemPedido {
 	public void setPrecioTotalItem(int precioTotalItem) {
 		this.precioTotalItem = precioTotalItem;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		ItemPedido item = (ItemPedido) obj;
 		return item.getProducto().equals(this.getProducto());
+	}
+
+	@Override
+	public String toString() {
+		return "ItemPedido [producto=" + producto + ", cantidad=" + cantidad + "]";
 	}
 
 }

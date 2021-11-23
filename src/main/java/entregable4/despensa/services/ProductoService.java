@@ -20,31 +20,53 @@ public class ProductoService {
 	@Autowired
 	private ItemPedidoRepository itemPedidos;
 
+	/**
+	 * Permite obtener un Producto mediante su id
+	 * 
+	 * @param id es el identificador unico de cada producto, es un entero
+	 * @return retorna un Optional de Producto
+	 */
 	public Optional<Producto> getProducto(int id) {
 		return this.productos.findById(id);
 	}
 
+	/**
+	 * Permite obtener la lista de todos los productos
+	 * 
+	 * @return retorna una lista de Productos
+	 */
 	public List<Producto> getProductos() {
 		return this.productos.findAll();
 	}
 
+	/**
+	 * Permite agregar un producto
+	 * 
+	 * @param p es una entidad Producto
+	 * @return retorna verdadero si se realizo la operacion o falso si fallo
+	 */
 	public boolean addProducto(Producto p) {
 		return this.productos.save(p) != null;
 	}
 
+	/**
+	 * Permite eliminar un producto
+	 * 
+	 * @param p es una entidad Producto
+	 */
 	public void deleteProducto(Producto p) {
 		this.productos.delete(p);
 	}
 
 	/**
-	 * Metodo que retorna el producto con mayor cantidad de ventas 
-	 * Responde a 5) Implemente una consulta para saber cuál fue el producto más vendido.
+	 * Metodo que retorna el producto con mayor cantidad de ventas Responde a 5)
+	 * Implemente una consulta para saber cuál fue el producto más vendido.
 	 * 
 	 * @return retorna un Optional del DTO MasVendido
 	 */
 	public Optional<MasVendido> getProductoMasVendido() {
 		List<ItemPedido> items = this.itemPedidos.obtenerMasVendido();
-		if (items==null) {
+		if (items == null) {
 			return Optional.ofNullable(null);
 		}
 

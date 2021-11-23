@@ -73,7 +73,7 @@ public class PedidoController {
 			throws ParseException {
 
 		ArrayList<ReporteVentasPorDia> reportes = pedidoService.getSalesByDay();
-		if (reportes==null) {
+		if (reportes.size()==0) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(reportes, HttpStatus.OK);

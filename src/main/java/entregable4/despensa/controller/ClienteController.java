@@ -71,7 +71,7 @@ public class ClienteController {
 	public ResponseEntity<ArrayList<ReporteCompras>> getSalesByClient() {
 		// ESTE RESUELVE EL PUNTO 3, PARA CADA CLIENTE, NOMBRE Y TOTAL GASTADO
 		ArrayList<ReporteCompras> reportes = clienteService.getTotalOfPedidosByCliente();
-		if (reportes==null) {
+		if (reportes.size()==0) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(reportes, HttpStatus.OK);

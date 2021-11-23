@@ -30,21 +30,42 @@ public class PedidoService {
 	@Autowired
 	private ProductoStockRepository stock;
 
+	/**
+	 * Permite obtener un Pedido mediante su id
+	 * 
+	 * @param id es el identificador unico de cada Pedido, es un entero
+	 * @return retorna un Optional de Pedido
+	 */
 	public Optional<Pedido> getPedido(int id) {
 		return this.pedidos.findById(id);
 	}
 
+	/**
+	 * Permite obtener todos los pedidos de un determinado cliente
+	 * 
+	 * @param idCliente un entero, identificador unico de cada cliente
+	 * @param date      una fecha en formato Date
+	 * @return retorna una lista de Pedido
+	 */
 	public List<Pedido> getPedidosByCliente(int idCliente, Date date) {
 		return this.pedidos.findPedidoOfCliente(idCliente, date);
-//		return null;
 	}
 
+	/**
+	 * Permite obtener la lista de todos los pedidos
+	 * 
+	 * @return retorna una lista de Pedido
+	 */
 	public List<Pedido> getPedidos() {
 		return this.pedidos.findAll();
 	}
 
+	/**
+	 * Permite eliminar un pedido
+	 * 
+	 * @param p una entidad de tipo Pedido
+	 */
 	public void deletePedido(Pedido p) {
-//		System.out.print("pedido " + p);
 		this.pedidos.delete(p);
 	}
 
@@ -52,7 +73,7 @@ public class PedidoService {
 	 * Permite agregar un pedido siempre y cuando el cliente no supere el limite de
 	 * compra de 3 productos por pedido por dia
 	 * 
-	 * @param p un objeto pedido
+	 * @param p una entidad Pedido
 	 * @return retorna true si el pedido pudo agregarse o false si no
 	 */
 	public boolean addPedido(Pedido p) {
@@ -64,8 +85,7 @@ public class PedidoService {
 
 		// ACA APLICO LA SECRETARIA DE COMERCIO
 		List<ItemPedido> listaNueva = p.getPedidos();
-		if (listaNueva != null) {
-			// traer los pedidos del cliente
+		if (listaNueva.size() != 0) {
 			if (!chequearCantidad(p, p.getMomentoCompra(), listaNueva)) {
 				return false;
 			}
@@ -95,7 +115,7 @@ public class PedidoService {
 	 * asegurandose que haya stock disponible, ademas calcula el precio total del
 	 * pedido
 	 * 
-	 * @param p          el pedido en cuestion
+	 * @param p          la entidad Pedido en cuestion
 	 * @param listaNueva una lista con los itemspedidos (que son un producto y la
 	 *                   cantidad a agregar)
 	 * @return retorna true si la operación fue exitosa o false si no lo fue
@@ -132,7 +152,7 @@ public class PedidoService {
 	/**
 	 * Verifica que el usuario no haya superado el limite de ventas establecido
 	 * 
-	 * @param p          un pedido
+	 * @param p          una entidad Pedido
 	 * @param date       la fecha en la que se realizo el pedido
 	 * @param listaNueva la lista de los itemspedidos del pedido en cuestión
 	 * @return retorna true si la operación fue exitosa o false si no lo fue
@@ -140,11 +160,11 @@ public class PedidoService {
 	private boolean chequearCantidad(Pedido p, Date date, List<ItemPedido> listaNueva) {
 		int clienteId = p.getCliente().getId();
 		List<Pedido> lista = this.getPedidosByCliente(clienteId, date);
-		
+
 		if (!chequearCantidadPedidoNuevo(listaNueva)) {
 			return false;
 		} else {
-			if (lista != null) {
+			if (lista.size() != 0) {
 				chequearCantidadPedidoContraPedidos(lista, listaNueva);
 			}
 		}

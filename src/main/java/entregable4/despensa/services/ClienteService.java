@@ -22,18 +22,40 @@ public class ClienteService {
 	@Autowired
 	private PedidoRepository pedidos;
 
+	/**
+	 * Permite obtener un cliente mediante su id
+	 * 
+	 * @param id es el identificador unico de cada cliente, es un entero
+	 * @return retorna un Optional de Cliente
+	 */
 	public Optional<Cliente> getCliente(int id) {
 		return this.clientes.findById(id);
 	}
 
+	/**
+	 * Permite obtener la lista de todos los clientes
+	 * 
+	 * @return retorna una lista de Cliente
+	 */
 	public List<Cliente> getAll() {
-		return this.clientes.findAll(); // pasar a paginado
+		return this.clientes.findAll();
 	}
 
+	/**
+	 * Agrega un nuevo cliente
+	 * 
+	 * @param c una entidad Cliente
+	 * @return retorna true si se agrego o false si no se pudo agregar
+	 */
 	public Boolean addCliente(Cliente c) {
 		return this.clientes.save(c) != null;
 	}
 
+	/**
+	 * Elimina un cliente
+	 * 
+	 * @param c una entidad Cliente
+	 */
 	public void deleteCliente(Cliente c) {
 		this.clientes.delete(c);
 	}
