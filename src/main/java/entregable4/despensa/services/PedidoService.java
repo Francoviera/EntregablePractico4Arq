@@ -114,9 +114,11 @@ public class PedidoService {
 						return false;
 					} else {
 						// ACTUALIZAR
-						productoStock.setStock(stockDisponible - cantidadPedir);
-						productoStock.getId();
+						int id=productoStock.getId();
+						int stockNuevo=stockDisponible - cantidadPedir;
+						
 						precioTotal += cantidadPedir * precio;
+						stock.updateStock(id, stockNuevo);
 					}
 				}
 			}

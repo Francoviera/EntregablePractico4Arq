@@ -31,4 +31,8 @@ public class ProductoStockService {
 	public void deleteProductoStock(ProductoStock p) {
 		this.productoStock.delete(p);
 	}
+	
+	public void updateProductoStock(int idProductoStock, int nuevoStock) {
+		this.productoStock.updateStock(idProductoStock, nuevoStock);
+	}
 }
