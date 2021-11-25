@@ -38,3 +38,5 @@ Nivel Web: Incluye la aplicación Web desarrollada para conectarse con la Despen
 Aplicación Despensa Online: Aquí se encuentra la lógica de negocio, que verifica los datos recibidos y evalúa las reglas correspondientes para que las operaciones se acepten y sean comunicadas a la base de datos o se rechacen.
 
 Nivel de Backend: Incluye la DB que nos permitirá persistir los datos
+
+Puede ver el proyecto totalmente desplegado en: [Heroku](https://despensa-springboot.herokuapp.com/).
