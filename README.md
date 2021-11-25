@@ -22,6 +22,7 @@ ItemPedido: encapsula cada producto del pedido junto con la cantidad a ordenar y
 Pedido: Es la entidad que va a definir las ventas, cuenta con un identificador, un cliente y una lista de items.
 
 De esta forma para realizar una compra en la tienda se creará un pedido que intentará agregarse a nuestra aplicación, si el pedido cumple con las condiciones de la despensa el pedido será agregado a la base de datos y se reducirá del stock de cada producto las cantidades adquiridas en el pedido en cuestión.
+
 Los informes son transportados por DTOs (Data Transfer Object), y la base de datos se llena automáticamente con un filler al iniciar el proyecto, este filler genera datos aleatorios para 20 clientes.
 
 Para el consumo de la aplicación se desarrolló una aplicación web que consume los servicios de nuestro backend. El cliente se comunica mediante peticiones HTTP(GET, POST, PUT and DELETE) 
