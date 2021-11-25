@@ -1,0 +1,71 @@
+.header {
+    color: #36A0FF;
+    font-size: 27px;
+    padding: 10px;
+}
+
+.bigicon {
+    font-size: 15px;
+    color: #36A0FF;
+}
+
+
+.list-content{
+    min-height:300px;
+   }
+   .list-content .list-group .title{
+     background:#5bc0de;
+     border:2px solid #DDDDDD;
+     font-weight:bold;
+     color:#FFFFFF;
+   }
+   .list-group-item img {
+       height:80px; 
+       width:80px;
+   }
+   
+   .jumbotron .btn {
+       padding: 5px 5px !important;
+       font-size: 12px !important;
+   }
+   .prj-name {
+       color:#5bc0de;
+   }
+   .break{
+       width:100%;
+       margin:20px;
+   }
+   .name {
+       color:#5bc0de;
+   }
+   .contentEstudiente{
+       float:left;
+   }
+   .abmEstudient{
+       float: right;
+       margin-right: 5%;
+    }
+    .divSearchFiltro{
+        width: 100%;
+        display: inline-block;
+
+    }
+    .buttonsFilters{
+        height: 9vh;
+        width: 8%;
+
+    }
+    .searchEstudient {
+        width: 40%;
+        /* display: inline-block; */
+        margin-right: 60%;
+    }
+    .searchEstudient input{
+        width: 70%;
+        float: left;
+    }
+    .searchEstudient button{
+        float: left;
+        width: 15%;
+        height: 36px;
+    }
