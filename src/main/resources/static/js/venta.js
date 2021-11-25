@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function() {
         //ESTO SE AVANZA EN LA SEGUNDA PARTE 
         fetch("https://despensa-springboot.herokuapp.com/pedidos", requestOptions)
             .then(response => response.json())
-            .then(data => { console.log(data)
+            .then(data => { 
                 reportesCarrera= data;
                 for (let i = 0; i < 8; i++) {
                     reportesCarreraToView.push(reportesCarrera[i]);       

@@ -8,8 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if ((window.innerHeight + window.scrollY) >= ((document.body.offsetHeight *80)/100)) {
             if(!loading && index < productos.length){
                 loading= true;
-                console.log(productosToView)
-                console.log(productos)
+
 
                 let cantidadProductos= 8;
                 if(index+8 > productos.length){
@@ -60,7 +59,6 @@ document.addEventListener("DOMContentLoaded", function() {
             "./assets/images/salfina.jpg",
             "./assets/images/mayonesa.jpg",
         ]
-        console.log(Math.round(Math.random()*4));
         return images[Math.round(Math.random()*4)];
     }
 

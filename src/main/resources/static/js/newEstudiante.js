@@ -27,7 +27,6 @@ document.addEventListener("DOMContentLoaded", function() {
             fetch("https://despensa-springboot.herokuapp.com/clientes", requestOptions)
                 .then(res => res.json())
                 .then(json => {
-                    console.log(json);
                 })
         } else {
             alert("complete todos los campos")

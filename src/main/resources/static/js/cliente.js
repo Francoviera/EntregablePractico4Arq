@@ -70,7 +70,6 @@ document.addEventListener("DOMContentLoaded", function() {
         fetch("https://despensa-springboot.herokuapp.com/clientes", requestOptions)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
                 estudiantes = data;
                 for (let i = 0; i < 8; i++) {
                     clientesToView.push(estudiantes[i]);       
@@ -115,15 +114,12 @@ document.addEventListener("DOMContentLoaded", function() {
         };
         fetch("http://localhost:8080/cliente/" + id, requestOptions)
             .then(res => {
-                console.log(res);
                 getClientes();
             })
             .catch((error) => console.log(error))
     }
 
     function filterEstudiante(idEstudiante) {
-        //  console.log(idEstudiante)
-
         let myHeaders = new Headers();
         let requestOptions = {
             method: 'GET',
