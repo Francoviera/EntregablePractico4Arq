@@ -6,46 +6,47 @@ document.addEventListener("DOMContentLoaded", function() {
 
     window.onscroll = function(ev) {
         if ((window.innerHeight + window.scrollY) >= ((document.body.offsetHeight *80)/100)) {
-            if(!loading && index < estudiantes.length){
+            if(!loading && index-1 < estudiantes.length){
                 loading= true;
-
-
-                let cantidad= 8;
-                if(index+8 > estudiantes.length){
-                    cantidad= (estudiantes.length-index)+1;
-                }
-                for (let i = index-1; i < (index+8); i++) {
-                    clientesToView.push(estudiantes[i]);
-                }
-                index+= 8;
-                loading = false;
-                
-                let string = ""
-                clientesToView.forEach(estudiante => {
-                    string += `<li href="#" class="list-group-item text-left">
-                    <div class="contentEstudiente">
-                        <img class="img-thumbnail " src="${getImage()}">
-                        <label class="name ms-2">
-                            ${estudiante.nombre} ${estudiante.apellido}<br>
-                      </label>
-                  </div>
-                  <div class="abmEstudient">
-                      <span class="pull-right">
-                          <i class="far fa-eye mt-4"></i>
-                          <a class="btn-delete-student" id="${estudiante.nroEstudiante}" type="button"><i class="fas fa-trash-alt text-danger ms-3"></i></a>
-                          <i class="fas fa-envelope-square ms-3"></i>
-                      </span>
-                  </div>
-                  <!-- <div class="break"></div> -->
-                </li>`;
-                });
-                document.querySelector(".ctn-clientes").innerHTML = string;
-                const btn = document.querySelectorAll(".btn-delete-student");
-                for (let i = 0; i < btn.length; i++) {
-                    btn[i].addEventListener("click", function() {
-                        deleteCliente(btn[i].id)
+                // if(index >= clientesToView.length){
+                    let cantidad= 8;
+                    if(index+cantidad > estudiantes.length){
+                        cantidad= (estudiantes.length-index);
+                    }
+                    for (let i = index; i < (index+cantidad); i++) {
+                        clientesToView.push(estudiantes[i]);
+                    }
+                    index+= cantidad;
+                    
+                    let string = "";
+                    clientesToView.forEach(estudiante => {
+                        string += `<li href="#" class="list-group-item text-left">
+                        <div class="contentEstudiente">
+                            <img class="img-thumbnail " src="${getImage()}">
+                            <label class="name ms-2">
+                                ${estudiante.nombre} ${estudiante.apellido}<br>
+                        </label>
+                    </div>
+                    <div class="abmEstudient">
+                        <span class="pull-right">
+                            <i class="far fa-eye mt-4"></i>
+                            <a class="btn-delete-student" id="${estudiante.nroEstudiante}" type="button"><i class="fas fa-trash-alt text-danger ms-3"></i></a>
+                            <i class="fas fa-envelope-square ms-3"></i>
+                        </span>
+                    </div>
+                    <!-- <div class="break"></div> -->
+                    </li>`;
                     });
-                }
+                    document.querySelector(".ctn-clientes").innerHTML = string;
+                    const btn = document.querySelectorAll(".btn-delete-student");
+                    for (let i = 0; i < btn.length; i++) {
+                        btn[i].addEventListener("click", function() {
+                            deleteCliente(btn[i].id)
+                        });
+                    }
+                    loading = false;
+
+                // }
             }
         }
     };
@@ -75,7 +76,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     clientesToView.push(estudiantes[i]);       
                 }
                 index= 8;
-                let string = ""
+                let string = "";
+
                 clientesToView.forEach(estudiante => {
                     string += `<li href="#" class="list-group-item text-left">
                     <div class="contentEstudiente">
@@ -87,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function() {
                   <div class="abmEstudient">
                       <span class="pull-right">
                           <i class="far fa-eye mt-4"></i>
-                          <a class="btn-delete-student" id="${estudiante.nroEstudiante}" type="button"><i class="fas fa-trash-alt text-danger ms-3"></i></a>
+                          <a class="btn-delete-student" id="${estudiante.id}" type="button"><i class="fas fa-trash-alt text-danger ms-3"></i></a>
                           <i class="fas fa-envelope-square ms-3"></i>
                       </span>
                   </div>
@@ -112,9 +114,9 @@ document.addEventListener("DOMContentLoaded", function() {
             headers: myHeaders,
             redirect: 'follow',
         };
-        fetch("http://localhost:8080/cliente/" + id, requestOptions)
+        fetch("https://despensa-springboot.herokuapp.com/clientes/" + id, requestOptions)
             .then(res => {
-                getClientes();
+                window.location.reload();
             })
             .catch((error) => console.log(error))
     }
@@ -126,13 +128,13 @@ document.addEventListener("DOMContentLoaded", function() {
             redirect: 'follow',
         };
 
-        fetch("http://localhost:8080/EjercicioIntegrador3/registroestudiantes" + "/estudiantes/" + idEstudiante + "", requestOptions)
+        fetch("https://despensa-springboot.herokuapp.com/clientes/"+ idEstudiante + "", requestOptions)
             .then(response => response.json())
             .then(estudiante => {
 
                 let string = `<li href="#" class="list-group-item text-left">
                     <div class="contentEstudiente">
-                        <img class="img-thumbnail " src="https://bootdey.com/img/Content/User_for_snippets.png">
+                        <img class="img-thumbnail " src="${getImage()}">
                         <label class="name ms-2">
                             ${estudiante.nombre} ${estudiante.apellido}<br>
                       </label>
@@ -140,14 +142,14 @@ document.addEventListener("DOMContentLoaded", function() {
                   <div class="abmEstudient">
                       <span class="pull-right">
                           <i class="far fa-eye mt-4"></i>
-                          <a class="btn-delete-student" id="${estudiante.nroEstudiante}" type="button"><i class="fas fa-trash-alt color-danger ms-3"></i></a>
+                          <a class="btn-delete-student" id="${estudiante.id}" type="button"><i class="fas fa-trash-alt text-danger ms-3"></i></a>
                           <i class="fas fa-envelope-square ms-3"></i>
                       </span>
                   </div>
                   <!-- <div class="break"></div> -->
                 </li>`;
-                document.querySelector(".ctn-estudiantes").innerHTML = string;
-                const btn = document.querySelectorAll(".btn-delete-student");
+                document.querySelector(".ctn-clientes").innerHTML = string;
+                const btn = document.querySelectorAll(".btn-delete");
                 for (let i = 0; i < btn.length; i++) {
                     btn[i].addEventListener("click", function() {
                         deleteCliente(btn[i].id)

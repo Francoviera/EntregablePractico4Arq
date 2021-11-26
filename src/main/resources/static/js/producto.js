@@ -8,45 +8,36 @@ document.addEventListener("DOMContentLoaded", function() {
         if ((window.innerHeight + window.scrollY) >= ((document.body.offsetHeight *80)/100)) {
             if(!loading && index < productos.length){
                 loading= true;
-
-
-                let cantidadProductos= 8;
-                if(index+8 > productos.length){
-                    cantidadProductos= (productos.length-index)+1;
-                }
-                for (let i = index-1; i < (index+8); i++) {
-                    productosToView.push(productos[i]);
-                }
-                index+= 8;
-                loading = false;
-                
-                let string = ""
-                productosToView.forEach(carrera => {
-                    string += `<li href="#" class="list-group-item text-left">
-                    <div class="contentEstudiente">
-                        <img class="img-thumbnail" src="${getImage()}">
-                        <label class="name ms-2">
-                            <span class="text-dark">Nombre :</span>  ${carrera.nombreProducto} 
-                        </label>
-                        <label class="name ms-2">
-                            <span class="text-dark">Marca :</span> ${carrera.marca} 
-                        </label>
-                    </div>
-                    <div class="abmEstudient">
-                        <span class="pull-right ">
-                            <span><i class="fas fa-users mt-4"></i> 15</span>
-                            <a class="btn-delete"  id="${carrera.idCarrera}" type="button"><i class="fas fa-trash-alt color-danger ms-3 mt-4"></i></a>
-                        </span>
-                    </div>
-                </li>`;
-                });
-                document.querySelector(".ctn-productos").innerHTML = string;
-                const btn = document.querySelectorAll(".btn-delete");
-                for (let i = 0; i < btn.length; i++) {
-                    btn[i].addEventListener("click", function() {
-                        deleteProducto(btn[i].id)
+                    let cantidad= 8;
+                    if(index+cantidad > productos.length){
+                        cantidad= (productos.length-index);
+                    }
+                    for (let i = index-1; i < (index+cantidad); i++) {
+                        productosToView.push(productos[i]);
+                    }
+                    index+= cantidad;
+                    loading = false;
+                    
+                    let string = "";
+                    productosToView.forEach(item => {
+                        string += `<li href="#" class="list-group-item text-left">
+                        <div class="contentEstudiente">
+                            <img class="img-thumbnail" src="${getImage()}">
+                            <label class="name ms-2">
+                                <span class="text-dark">Nombre :</span>  ${item.nombreProducto} 
+                            </label>
+                            <label class="name ms-2">
+                                <span class="text-dark">Marca :</span> ${item.marca} 
+                            </label>
+                        </div>
+                        <div class="abmEstudient">
+                            <span class="pull-right ">
+                                <span><i class="fas fa-users mt-4"></i> 15</span>
+                            </span>
+                        </div>
+                    </li>`;
                     });
-                }
+                    document.querySelector(".ctn-productos").innerHTML = string;
             }
         }
     };
@@ -78,63 +69,35 @@ document.addEventListener("DOMContentLoaded", function() {
                     productosToView.push(productos[i]);       
                 }
                 index= 8;
-                let string = ""
-                productosToView.forEach(carrera => {
+                let string = "";
+                productosToView.forEach(item => {
                     string += `<li href="#" class="list-group-item text-left">
                     <div class="contentEstudiente">
                         <img class="img-thumbnail" src="${getImage()}">
                         <label class="name ms-2">
-                            <span class="text-dark">Nombre :</span>  ${carrera.nombreProducto} 
+                            <span class="text-dark">Nombre :</span>  ${item.nombreProducto} 
                         </label>
                         <label class="name ms-2">
-                            <span class="text-dark">Marca :</span> ${carrera.marca} 
+                            <span class="text-dark">Marca :</span> ${item.marca} 
                         </label>
                     </div>
                     <div class="abmEstudient">
                         <span class="pull-right ">
                             <span><i class="fas fa-users mt-4"></i> 15</span>
-                            <a class="btn-delete"  id="${carrera.idCarrera}" type="button"><i class="fas fa-trash-alt color-danger ms-3 mt-4"></i></a>
                         </span>
                     </div>
                 </li>`;
                 });
                 document.querySelector(".ctn-productos").innerHTML = string;
-                const btn = document.querySelectorAll(".btn-delete");
-                for (let i = 0; i < btn.length; i++) {
-                    btn[i].addEventListener("click", function() {
-                        deleteProducto(btn[i].id)
-                    });
-                }
+
             })
             .catch(error => console.error(error));
     }
 
-    function deleteProducto(id) {
-        let myHeaders = new Headers();
-        let requestOptions = {
-            method: 'DELETE',
-            headers: myHeaders,
-            redirect: 'follow',
-        };
-        fetch("http://localhost:8080/producto/" + id, requestOptions)
-            .then(res => {
-                getProductos();
-            })
-            .catch((error) => console.log(error))
-    }
+    
 
-    function filter(nombre) {
-        let producto= productos.find(producto => producto.nombreProducto == nombre)
-
-        // let myHeaders = new Headers();
-        // let requestOptions = {
-        //     method: 'GET',
-        //     redirect: 'follow',
-        // };
-
-        // fetch("http://localhost:8080/producto/" + idEstudiante + "", requestOptions)
-        //     .then(response => response.json())
-        //     .then(carrera => {
+    function filter(id) {
+        let producto= productos.find(producto => producto.id == id)
 
                 let string = `<li href="#" class="list-group-item text-left">
                     <div class="contentEstudiente">
