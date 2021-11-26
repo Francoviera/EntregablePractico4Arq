@@ -8,10 +8,10 @@ document.addEventListener("DOMContentLoaded", function() {
         if ((window.innerHeight + window.scrollY) >= ((document.body.offsetHeight *80)/100)) {
             if(!loading && index-1 < estudiantes.length){
                 loading= true;
-                if(index >= clientesToView.length){
+                // if(index >= clientesToView.length){
                     let cantidad= 8;
                     if(index+cantidad > estudiantes.length){
-                        cantidad= (estudiantes.length-index)+1;
+                        cantidad= (estudiantes.length-index);
                     }
                     for (let i = index; i < (index+cantidad); i++) {
                         clientesToView.push(estudiantes[i]);
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     }
                     loading = false;
 
-                }
+                // }
             }
         }
     };
