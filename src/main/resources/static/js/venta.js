@@ -44,14 +44,19 @@ document.addEventListener("DOMContentLoaded", function() {
                     </div>
                     <div class="abmEstudient">
                         <span class="pull-right ">
-                            <i class="far fa-eye mt-4"></i>
-                            <i class="fas fa-trash-alt color-danger ms-3 mt-4"></i>
+                            <a class="btn-delete text-danger"  id="${item.id}" type="button"><i class="fas fa-trash-alt color-danger ms-3 mt-4"></i></a>
                         </span>
                     </div>
                     <!-- <div class="break"></div> -->
                 </li>`;
                 });
-                document.querySelector(".ctn-ventas").innerHTML = string;
+                document.querySelector(".ctn-pedidos").innerHTML = string;
+                const btn = document.querySelectorAll(".btn-delete");
+                for (let i = 0; i < btn.length; i++) {
+                    btn[i].addEventListener("click", function() {
+                        deletePedidos(btn[i].id)
+                    });
+                }
             }
         }
     };
@@ -110,16 +115,36 @@ document.addEventListener("DOMContentLoaded", function() {
                     </div>
                     <div class="abmEstudient">
                         <span class="pull-right ">
-                            <i class="far fa-eye mt-4"></i>
-                            <i class="fas fa-trash-alt color-danger ms-3 mt-4"></i>
+                            <a class="btn-delete text-danger"  id="${item.id}" type="button"><i class="fas fa-trash-alt color-danger ms-3 mt-4"></i></a>
                         </span>
                     </div>
                     <!-- <div class="break"></div> -->
                 </li>`;
                 });
-                document.querySelector(".ctn-ventas").innerHTML = string;
+                document.querySelector(".ctn-pedidos").innerHTML = string;
+                const btn = document.querySelectorAll(".btn-delete");
+                for (let i = 0; i < btn.length; i++) {
+                    btn[i].addEventListener("click", function() {
+                        deletePedidos(btn[i].id)
+                    });
+                }
+
             })
             .catch(error => console.error(error));
+    }
+
+    function deletePedidos(id) {
+        let myHeaders = new Headers();
+        let requestOptions = {
+            method: 'DELETE',
+            headers: myHeaders,
+            redirect: 'follow',
+        };
+        fetch("https://despensa-springboot.herokuapp.com/pedidos/" + id, requestOptions)
+            .then(res => {
+                window.location.reload();
+            })
+            .catch((error) => console.log(error))
     }
 
     getVentas();

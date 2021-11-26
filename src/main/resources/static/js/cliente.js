@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 index+= 8;
                 loading = false;
                 
-                let string = ""
+                let string = "";
                 clientesToView.forEach(estudiante => {
                     string += `<li href="#" class="list-group-item text-left">
                     <div class="contentEstudiente">
@@ -75,7 +75,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     clientesToView.push(estudiantes[i]);       
                 }
                 index= 8;
-                let string = ""
+                let string = "";
+
                 clientesToView.forEach(estudiante => {
                     string += `<li href="#" class="list-group-item text-left">
                     <div class="contentEstudiente">
@@ -87,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function() {
                   <div class="abmEstudient">
                       <span class="pull-right">
                           <i class="far fa-eye mt-4"></i>
-                          <a class="btn-delete-student" id="${estudiante.nroEstudiante}" type="button"><i class="fas fa-trash-alt text-danger ms-3"></i></a>
+                          <a class="btn-delete-student" id="${estudiante.id}" type="button"><i class="fas fa-trash-alt text-danger ms-3"></i></a>
                           <i class="fas fa-envelope-square ms-3"></i>
                       </span>
                   </div>
@@ -112,9 +113,9 @@ document.addEventListener("DOMContentLoaded", function() {
             headers: myHeaders,
             redirect: 'follow',
         };
-        fetch("http://localhost:8080/cliente/" + id, requestOptions)
+        fetch("https://despensa-springboot.herokuapp.com/clientes/" + id, requestOptions)
             .then(res => {
-                getClientes();
+                window.location.reload();
             })
             .catch((error) => console.log(error))
     }
