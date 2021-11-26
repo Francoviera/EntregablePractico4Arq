@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", function() {
             fetch("https://despensa-springboot.herokuapp.com/clientes", requestOptions)
                 .then(res => res.json())
                 .then(json => {
+                    alert("Cliente agregado");
                 })
         } else {
             alert("complete todos los campos")
