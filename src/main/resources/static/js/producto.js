@@ -8,15 +8,14 @@ document.addEventListener("DOMContentLoaded", function() {
         if ((window.innerHeight + window.scrollY) >= ((document.body.offsetHeight *80)/100)) {
             if(!loading && index < productos.length){
                 loading= true;
-                if(index >= productosToView.length){
-                    let cantidadProductos= 8;
-                    if(index+8 > productos.length){
-                        cantidadProductos= (productos.length-index)+1;
+                    let cantidad= 8;
+                    if(index+cantidad > productos.length){
+                        cantidad= (productos.length-index);
                     }
-                    for (let i = index-1; i < (index+8); i++) {
+                    for (let i = index-1; i < (index+cantidad); i++) {
                         productosToView.push(productos[i]);
                     }
-                    index+= 8;
+                    index+= cantidad;
                     loading = false;
                     
                     let string = "";
@@ -39,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     </li>`;
                     });
                     document.querySelector(".ctn-productos").innerHTML = string;
-                }
             }
         }
     };
